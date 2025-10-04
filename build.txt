@@ -1,0 +1,5 @@
+displayName = Opus Utilities
+author = HoleCat
+version = 0.1
+modReferences = InnoVault
+dependencies = InnoVault
