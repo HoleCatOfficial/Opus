@@ -12,10 +12,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using InnoVault.PRT;
 using Terraria.Audio;
+using Terraria.ModLoader.Config;
 
 namespace Opus
 {
-	// Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
 	public class Opus : Mod
 	{
 		public static bool HasJingled = false;
@@ -123,13 +123,14 @@ namespace Opus
 				Rot = projectile.rotation;
 			}
 
+			Asset<Texture2D> Glow = ModContent.Request<Texture2D>("Opus/Assets/Textures/PointGlow");
 			Main.EntitySpriteDraw(
-				OpusAssets.PointGlow.Value,
+				Glow.Value,
 				projectile.Center - Main.screenPosition,
 				null,
 				color,
 				Rot,
-				OpusAssets.PointGlow.Value.Size() / 2,
+				Glow.Value.Size() / 2,
 				projectile.scale,
 				SpriteEffects.None,
 				0
@@ -182,9 +183,9 @@ namespace Opus
 		public override void OnEnterWorld()
 		{
 			Main.NewText("Thank you for using Opus!", Color.LightGreen);
-			if (!Opus.HasJingled)
+			if (!Opus.HasJingled && ModContent.GetInstance<OpusConfig>().PlayJingleOnEnterWorldFirstTime)
 			{
-				SoundEngine.PlaySound(OpusAssets.Jingle);
+				SoundEngine.PlaySound(new SoundStyle("Opus/Assets/Audio/OpusJingle"));
 				Opus.HasJingled = true;
 			}
 		}

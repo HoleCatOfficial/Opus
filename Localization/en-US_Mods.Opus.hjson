@@ -1,6 +1,17 @@
 Items: {
 	WelcomeToOpus: {
 		DisplayName: Welcome To Opus
-		Tooltip: ""
+		Tooltip: How to use the Opus Book System
+	}
+}
+
+Configs: {
+	OpusConfig: {
+		DisplayName: Opus Config
+
+		PlayJingleOnEnterWorldFirstTime: {
+			Label: Play Jingle On Enter World First Time
+			Tooltip: ""
+		}
 	}
 }

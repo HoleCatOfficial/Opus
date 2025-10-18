@@ -12,7 +12,7 @@ namespace Opus.Content.OpusBook
         /// The registry key for this book. Must match what was passed into OpusReader.RegisterBook.
         /// </summary>
         public abstract string GetBookKey();
-        public virtual SoundStyle OpenSound => OpusAssets.BookOpen;
+        public virtual SoundStyle OpenSound => new SoundStyle("Opus/Assets/Audio/BookOpen");
 
         public override void SetDefaults()
         {

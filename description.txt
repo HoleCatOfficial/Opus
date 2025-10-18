@@ -3,6 +3,5 @@ It is easy to use alongside your mod, only has one dependency, and has optimizat
 
 Opus is composed of these core components:
 - Opus, which contains most of the useful methods you can call.
-- OpusColor, which contains useful colors not provided by the XNA framework, as well as cycling gradients.
-- OpusAssets, which is a repository of textures to be used during draw call, as well as a few sound effects. It is currently limited to the basics, such as glow and sparkles.
-- OpusBook, a Localization-Based book system that allows you to register books page-by-page and read through them with an in-game UI.
+- OpusColorUtils, which has a helper method for getting a color with an alpha.
+- OpusBook, a book system that allows you to register books page-by-page and read through them with an in-game UI. Supports localized text, but is finnecky in that case.
