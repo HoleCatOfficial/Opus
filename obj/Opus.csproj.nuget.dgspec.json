@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\Opus.csproj": {}
+    "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\Opus.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\Opus.csproj": {
+    "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\Opus.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\Opus.csproj",
+        "projectUniqueName": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\Opus.csproj",
         "projectName": "Opus",
-        "projectPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\Opus.csproj",
+        "projectPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\Opus.csproj",
         "packagesPath": "C:\\Users\\Franc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\obj\\",
+        "outputPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

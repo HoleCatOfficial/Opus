@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Opus.Content.Helpers
+namespace OpusLib.Content.Helpers
 {
     public class OpusNPCDropHelper : GlobalNPC
     {

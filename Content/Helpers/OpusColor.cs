@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 
-namespace Opus.Content.Helpers
+namespace OpusLib.Content.Helpers
 {
     public static class OpusColorUtils
     {

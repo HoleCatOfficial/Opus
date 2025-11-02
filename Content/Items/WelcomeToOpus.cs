@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Opus.Content.Helpers;
-using Opus.Content.OpusBook;
+using OpusLib.Content.Helpers;
+using OpusLib.Content.OpusBook;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Opus.Content.Items
+namespace OpusLib.Content.Items
 {
     public class WelcomeToOpus : OpusBookItem
     {

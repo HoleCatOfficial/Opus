@@ -15,3 +15,35 @@ Configs: {
 		}
 	}
 }
+
+ib: {
+	Configs: {
+		OpusConfig: {
+			PlayJingleOnEnterWorldFirstTime: {
+				Tooltip: {
+					$parentVal: ""
+				}
+
+				Label: {
+					$parentVal: Play Jingle On Enter World First Time
+				}
+			}
+
+			DisplayName: {
+				$parentVal: Opus Config
+			}
+		}
+	}
+
+	Items: {
+		WelcomeToOpus: {
+			Tooltip: {
+				$parentVal: ""
+			}
+
+			DisplayName: {
+				$parentVal: Welcome To Opus
+			}
+		}
+	}
+}

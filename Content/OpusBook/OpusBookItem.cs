@@ -1,10 +1,10 @@
-using Opus.Content.Helpers;
+using OpusLib.Content.Helpers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Opus.Content.OpusBook
+namespace OpusLib.Content.OpusBook
 {
     public abstract class OpusBookItem : ModItem
     {
@@ -12,7 +12,7 @@ namespace Opus.Content.OpusBook
         /// The registry key for this book. Must match what was passed into OpusReader.RegisterBook.
         /// </summary>
         public abstract string GetBookKey();
-        public virtual SoundStyle OpenSound => new SoundStyle("Opus/Assets/Audio/BookOpen");
+        public virtual SoundStyle OpenSound => new SoundStyle("OpusLib/Assets/Audio/BookOpen");
 
         public override void SetDefaults()
         {

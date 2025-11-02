@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Opus.Content.Helpers;
+using OpusLib.Content.Helpers;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace Opus.Content.OpusBook
+namespace OpusLib.Content.OpusBook
 {
     public static class OpusBookRegistry
     {
@@ -87,7 +87,7 @@ namespace Opus.Content.OpusBook
             pageNumberText.Left.Set(260f, 0f);
             panel.Append(pageNumberText);
 
-            nextButton = new UIImageButton(ModContent.Request<Texture2D>($"Opus/Assets/Textures/ArrowRight"));
+            nextButton = new UIImageButton(ModContent.Request<Texture2D>($"OpusLib/Assets/Textures/ArrowRight"));
             nextButton.Width.Set(24f, 0f);
             nextButton.Height.Set(24f, 0f);
             nextButton.Left.Set(560f, 0f);
@@ -95,7 +95,7 @@ namespace Opus.Content.OpusBook
             nextButton.OnLeftClick += NextPage;
             panel.Append(nextButton);
 
-            prevButton = new UIImageButton(ModContent.Request<Texture2D>($"Opus/Assets/Textures/ArrowLeft"));
+            prevButton = new UIImageButton(ModContent.Request<Texture2D>($"OpusLib/Assets/Textures/ArrowLeft"));
             prevButton.Width.Set(24f, 0f);
             prevButton.Height.Set(24f, 0f);
             prevButton.Left.Set(10f, 0f);
@@ -103,7 +103,7 @@ namespace Opus.Content.OpusBook
             prevButton.OnLeftClick += PrevPage;
             panel.Append(prevButton);
 
-            CloseButton = new UIImageButton(ModContent.Request<Texture2D>($"Opus/Assets/Textures/CloseButton"));
+            CloseButton = new UIImageButton(ModContent.Request<Texture2D>($"OpusLib/Assets/Textures/CloseButton"));
             CloseButton.Width.Set(24f, 0f);
             CloseButton.Height.Set(24f, 0f);
             CloseButton.Left.Set(8f, 0f);
@@ -163,7 +163,7 @@ namespace Opus.Content.OpusBook
 
         private void NextPage(UIMouseEvent evt, UIElement listeningElement)
         {
-            SoundEngine.PlaySound(new SoundStyle("Opus/Assets/Audio/Pageturn"), Main.LocalPlayer.position);
+            SoundEngine.PlaySound(new SoundStyle("OpusLib/Assets/Audio/Pageturn"), Main.LocalPlayer.position);
             if (currentPage < pages.Count - 1)
             {
                 currentPage++;
@@ -173,7 +173,7 @@ namespace Opus.Content.OpusBook
 
         private void PrevPage(UIMouseEvent evt, UIElement listeningElement)
         {
-            SoundEngine.PlaySound(new SoundStyle("Opus/Assets/Audio/Pageturn"), Main.LocalPlayer.position);
+            SoundEngine.PlaySound(new SoundStyle("OpusLib/Assets/Audio/Pageturn"), Main.LocalPlayer.position);
             if (currentPage > 0)
             {
                 currentPage--;

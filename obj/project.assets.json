@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\Opus.csproj",
-      "projectName": "Opus",
-      "projectPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\Opus.csproj",
+      "projectUniqueName": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\OpusLib.csproj",
+      "projectName": "OpusLib",
+      "projectPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\OpusLib.csproj",
       "packagesPath": "C:\\Users\\Franc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Opus\\obj\\",
+      "outputPath": "C:\\Users\\Franc\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\OpusLib\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
