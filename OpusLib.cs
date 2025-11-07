@@ -247,7 +247,207 @@ namespace OpusLib
 			}
 		}
 
+		/// <summary>
+        /// Returns an array of Vectors that all are <i> radius </i> away from <i> center </i>, equidistantly spaced.
+		/// <para/> The array is <i> numVectors </i> in length.
+        /// </summary>
+        /// <param name="numVectors"></param>
+        /// <param name="center"></param>
+        /// <param name="rotationSpeed"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+		public static Vector2[] GetEquidistantVectors(int numVectors, Vector2 center, float radius)
+		{
+			Vector2[] vectors = new Vector2[numVectors];
+			float angleStep = MathHelper.TwoPi / numVectors;
+
+			for (int i = 0; i < numVectors; i++)
+			{
+				float angle = angleStep * i;
+				vectors[i] = center + new Vector2(radius, 0f).RotatedBy(angle);
+			}
+
+			return vectors;
+		}
+
+		/// <summary>
+		/// Returns an array of Vectors that all are <i> radius </i> away from <i> center </i>, equidistantly spaced, rotating at <i> rotationSpeed </i>.
+		/// <para/> The array is <i> numVectors </i> in length.
+		/// </summary>
+		/// <param name="numVectors"></param>
+		/// <param name="center"></param>
+		/// <param name="rotationSpeed"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public static Vector2[] GetEquidistantOrbitVectors(int numVectors, Vector2 center, float rotationSpeed, float radius)
+		{
+			Vector2[] vectors = new Vector2[numVectors];
+			float angleStep = MathHelper.TwoPi / numVectors;
+			float rotationOffset = Main.GameUpdateCount * rotationSpeed;
+
+			for (int i = 0; i < numVectors; i++)
+			{
+				float angle = rotationOffset + angleStep * i;
+				vectors[i] = center + new Vector2(radius, 0f).RotatedBy(angle);
+			}
+
+			return vectors;
+		}
+
+		/// <summary>
+		/// Returns an array of tuples that all are <i> radius </i> away from <i> center </i>, equidistantly spaced, rotating at <i> rotationSpeed </i>.
+		/// <para/> The array is <i> numVectors </i> in length.
+		/// <para/> The rotation is in the direction of travel.
+		/// </summary>
+		/// <param name="numEntities"></param>
+		/// <param name="center"></param>
+		/// <param name="rotationSpeed"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public static (Vector2 Position, float Rotation)[] GetEquidistantOrbitVectorsAndRots(int numEntities, Vector2 center, float rotationSpeed, float radius)
+		{
+			var results = new (Vector2, float)[numEntities];
+			float angleStep = MathHelper.TwoPi / numEntities;
+			float rotationOffset = Main.GameUpdateCount * rotationSpeed;
+
+			for (int i = 0; i < numEntities; i++)
+			{
+				float angle = rotationOffset + angleStep * i;
+				Vector2 position = center + new Vector2(radius, 0f).RotatedBy(angle);
+				results[i] = (position, angle);
+			}
+
+			return results;
+		}
+
+		public static void SetEquidistantProjectilesWithRotation(
+			Projectile[] projectiles,
+			Vector2 center,
+			float rotationSpeed,
+			float radius,
+			bool alignToTangent,
+			out Vector2[] centers,
+			out float[] rotations)
+		{
+			int n = projectiles.Length;
+			centers = new Vector2[n];
+			rotations = new float[n];
+
+			if (n == 0)
+				return;
+
+			float angleStep = MathHelper.TwoPi / n;
+			float baseRotation = Main.GameUpdateCount * rotationSpeed;
+
+			for (int i = 0; i < n; i++)
+			{
+				float angle = baseRotation + angleStep * i;
+				rotations[i] = angle;
+
+				// compute the center position for this index
+				Vector2 c = center + new Vector2(radius, 0f).RotatedBy(angle);
+				centers[i] = c;
+
+				// assign to entity if present
+				if (projectiles[i] != null)
+				{
+					// position is top-left, so subtract half-size to place center correctly
+					projectiles[i].position = c - new Vector2(projectiles[i].width / 2f, projectiles[i].height / 2f);
+
+					// choose how to orient the entity:
+					// - radial: rotation == angle (points away from circle center along radial)
+					// - tangent: rotation == angle + 90deg (points along orbit direction)
+					projectiles[i].rotation = alignToTangent ? angle + MathHelper.PiOver2 : angle;
+				}
+			}
+		}
+
+		public static void SetEquidistantNPCsWithRotation(
+			NPC[] NPCs,
+			Vector2 center,
+			float rotationSpeed,
+			float radius,
+			bool alignToTangent,
+			out Vector2[] centers,
+			out float[] rotations)
+		{
+			int n = NPCs.Length;
+			centers = new Vector2[n];
+			rotations = new float[n];
+
+			if (n == 0)
+				return;
+
+			float angleStep = MathHelper.TwoPi / n;
+			float baseRotation = Main.GameUpdateCount * rotationSpeed;
+
+			for (int i = 0; i < n; i++)
+			{
+				float angle = baseRotation + angleStep * i;
+				rotations[i] = angle;
+
+				// compute the center position for this index
+				Vector2 c = center + new Vector2(radius, 0f).RotatedBy(angle);
+				centers[i] = c;
+
+				// assign to entity if present
+				if (NPCs[i] != null)
+				{
+					// position is top-left, so subtract half-size to place center correctly
+					NPCs[i].position = c - new Vector2(NPCs[i].width / 2f, NPCs[i].height / 2f);
+
+					// choose how to orient the entity:
+					// - radial: rotation == angle (points away from circle center along radial)
+					// - tangent: rotation == angle + 90deg (points along orbit direction)
+					NPCs[i].rotation = alignToTangent ? angle + MathHelper.PiOver2 : angle;
+				}
+			}
+		}
+		
+		public static void SetEquidistantPlayersWithRotation(
+			Player[] players,
+			Vector2 center,
+			float rotationSpeed,
+			float radius,
+			bool alignToTangent,
+			out Vector2[] centers,
+			out float[] rotations)
+		{
+			int n = players.Length;
+			centers = new Vector2[n];
+			rotations = new float[n];
+
+			if (n == 0)
+				return;
+
+			float angleStep = MathHelper.TwoPi / n;
+			float baseRotation = Main.GameUpdateCount * rotationSpeed;
+
+			for (int i = 0; i < n; i++)
+			{
+				float angle = baseRotation + angleStep * i;
+				rotations[i] = angle;
+
+				// compute the center position for this index
+				Vector2 c = center + new Vector2(radius, 0f).RotatedBy(angle);
+				centers[i] = c;
+
+				// assign to entity if present
+				if (players[i] != null)
+				{
+					// position is top-left, so subtract half-size to place center correctly
+					players[i].position = c - new Vector2(players[i].width / 2f, players[i].height / 2f);
+
+					// choose how to orient the entity:
+					// - radial: rotation == angle (points away from circle center along radial)
+					// - tangent: rotation == angle + 90deg (points along orbit direction)
+					players[i].bodyRotation = alignToTangent ? angle + MathHelper.PiOver2 : angle;
+				}
+			}
+		}
+
 		public static Asset<Texture2D> PointGlow = ModContent.Request<Texture2D>("OpusLib/Assets/Textures/PointGlow");
+
 
         /// <summary>
         /// Easy-to-call method for drawing a point glow over the center of a projectile.
