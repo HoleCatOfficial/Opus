@@ -292,7 +292,7 @@ namespace OpusLib.Content.Helpers
             {
                 return [NPCID.Pumpking, NPCID.Splinterling, NPCID.Hellhound];
             }
-            
+
 
 
             return [NPCID.Scarecrow1,
@@ -305,6 +305,353 @@ namespace OpusLib.Content.Helpers
             NPCID.Scarecrow8,
             NPCID.Scarecrow9,
             NPCID.Scarecrow10];
+        }
+
+        public int[] Zombies = new int[]
+        {
+            -65, -64, -63, -62, -61, -60, -59, -58, -57, -55, -54, -52, -48, -47, -46, -45, -44, -43, -42, -41, -40, -39, -38, -37, -36, -35, -34, -33, -32, -31
+        };
+
+        public int[] DemonEyes = new int[]
+        {
+            2, -43, 190, -38, 191, -39, 192, -40, 193, -41, 194, -42, 317, 318
+        };
+
+        public int[] TundraEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return [
+                    NPCID.IceSlime,
+                    NPCID.ZombieEskimo,
+                    NPCID.ArmedZombieEskimo,
+                    NPCID.CorruptPenguin,
+                    NPCID.CrimsonPenguin,
+                    NPCID.IceBat,
+                    NPCID.SpikedIceSlime,
+                    NPCID.UndeadViking,
+                    NPCID.SnowFlinx,
+                    NPCID.CyanBeetle
+                ];
+            }
+            if (Hardmode)
+            {
+                return [
+                    NPCID.IceSlime,
+                    NPCID.ZombieEskimo,
+                    NPCID.ArmedZombieEskimo,
+                    NPCID.CorruptPenguin,
+                    NPCID.CrimsonPenguin,
+                    NPCID.IceBat,
+                    NPCID.SpikedIceSlime,
+                    NPCID.UndeadViking,
+                    NPCID.SnowFlinx,
+                    NPCID.CyanBeetle,
+                    NPCID.IceElemental,
+                    NPCID.Wolf,
+                    NPCID.IceGolem,
+                    NPCID.ArmoredViking,
+                    NPCID.IceTortoise,
+                    NPCID.IcyMerman,
+                    NPCID.IceMimic,
+                    NPCID.PigronCorruption,
+                    NPCID.PigronCrimson,
+                    NPCID.PigronHallow
+                ];
+            }
+            return [NPCID.IceSlime];
+        }
+
+        public int[] JungleEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return [
+                    NPCID.JungleSlime,
+                    NPCID.JungleBat,
+                    NPCID.Piranha,
+                    NPCID.Snatcher,
+                ];
+            }
+            if (Hardmode)
+            {
+                return[
+                
+                    NPCID.JungleSlime,
+                    NPCID.JungleBat,
+                    NPCID.Piranha,
+                    NPCID.Snatcher,
+                    NPCID.Derpling,
+                    NPCID.GiantTortoise,
+                    NPCID.GiantFlyingFox,
+                    NPCID.AngryTrapper,
+                    NPCID.Arapaima,
+                    NPCID.MossHornet
+                ];
+            }
+            return [-1];
+        }
+
+
+        public int[] DesertEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return[
+                    NPCID.Vulture,
+                    NPCID.Antlion,
+                    NPCID.LarvaeAntlion,
+                    NPCID.WalkingAntlion,
+                    NPCID.GiantFlyingAntlion,
+                    NPCID.TombCrawlerHead,
+                    NPCID.SandShark,
+                    NPCID.GiantWalkingAntlion
+                ];
+            }
+            if (Hardmode)
+            {
+                return[
+
+                    NPCID.Vulture,
+                    NPCID.Antlion,
+                    NPCID.LarvaeAntlion,
+                    NPCID.WalkingAntlion,
+                    NPCID.GiantFlyingAntlion,
+                    NPCID.TombCrawlerHead,
+                    NPCID.SandShark,
+                    NPCID.GiantWalkingAntlion,
+                    NPCID.Mummy,
+                    NPCID.DarkMummy,
+                    NPCID.BloodMummy,
+                    NPCID.DesertLamiaDark,
+                    NPCID.DesertLamiaLight,
+                    NPCID.DesertGhoul,
+                    NPCID.DesertGhoulCorruption,
+                    NPCID.DesertGhoulCrimson,
+                    NPCID.DesertGhoulHallow,
+                    NPCID.DesertScorpionWalk,
+                    NPCID.DesertScorpionWall,
+                    NPCID.DesertBeast,
+                    NPCID.DuneSplicerHead,
+                    NPCID.SandElemental,
+                    NPCID.DesertDjinn
+                ];
+            }
+            return [-1];
+        }
+
+
+        public int[] ForestEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return [
+                    NPCID.SlimedZombie,
+                    NPCID.BigSlimedZombie,
+                    NPCID.BlueSlime,
+                    NPCID.GreenSlime,
+                    NPCID.PurpleSlime,
+                    NPCID.YellowSlime,
+                    NPCID.Zombie,
+                    NPCID.ZombieRaincoat,
+                    NPCID.DemonEye,
+                    NPCID.Raven,
+                    NPCID.GoblinScout,
+                    ..Zombies,
+                    ..DemonEyes,
+                    NPCID.Pinky
+                ];
+            }
+            if (Hardmode)
+            {
+                return[
+                    NPCID.SlimedZombie,
+                    NPCID.BigSlimedZombie,
+                    NPCID.BlueSlime,
+                    NPCID.GreenSlime,
+                    NPCID.PurpleSlime,
+                    NPCID.YellowSlime,
+                    NPCID.Zombie,
+                    NPCID.ZombieRaincoat,
+                    NPCID.DemonEye,
+                    NPCID.Raven,
+                    NPCID.GoblinScout,
+                    ..Zombies,
+                    ..DemonEyes,
+                    NPCID.PossessedArmor,
+                    NPCID.WanderingEye,
+                    NPCID.Wraith,
+                    NPCID.Werewolf,
+                    NPCID.HoppinJack,
+                    NPCID.Pinky
+                ];
+            }
+            return [-1];
+        }
+
+        public int[] CaveAndCavernEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return [
+                    NPCID.GiantWormHead,
+                    NPCID.BlueSlime,
+                    NPCID.RedSlime,
+                    NPCID.YellowSlime,
+                    NPCID.BlueJellyfish,
+                    NPCID.Pinky
+                ];
+            }
+            if (Hardmode)
+            {
+                return[
+                    NPCID.GiantWormHead,
+                    NPCID.DiggerHead,
+                    NPCID.ToxicSludge,
+                    NPCID.GreenJellyfish,
+                    NPCID.BlueSlime,
+                    NPCID.RedSlime,
+                    NPCID.YellowSlime,
+                    NPCID.BlueJellyfish,
+                    NPCID.Pinky
+                ];
+            }
+            return [-1];
+        }
+
+        public int[] HallowEnemies = new int[]
+        {
+            NPCID.Pixie,
+            NPCID.Gastropod,
+            NPCID.Unicorn,
+            NPCID.RainbowSlime,
+            NPCID.LightMummy,
+            NPCID.IlluminantBat,
+            NPCID.IlluminantSlime,
+            NPCID.ChaosElemental,
+            NPCID.EnchantedSword,
+            NPCID.BigMimicHallow
+        };
+
+        public int[] CrimsonEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return [
+                    NPCID.BloodCrawler,
+                    NPCID.BloodCrawlerWall,
+                    NPCID.CrimsonGoldfish,
+                    NPCID.FaceMonster,
+                    NPCID.Crimera,
+                    NPCID.BigCrimera
+                ];
+            }
+            if (Hardmode)
+            {
+                return[
+                    NPCID.BloodCrawler,
+                    NPCID.BloodCrawlerWall,
+                    NPCID.CrimsonGoldfish,
+                    NPCID.FaceMonster,
+                    NPCID.Crimera,
+                    NPCID.BigCrimera,
+                    NPCID.Crimslime,
+                    NPCID.Herpling,
+                    NPCID.BloodJelly,
+                    NPCID.BloodFeeder,
+                    NPCID.BloodMummy
+                ];
+            }
+            return [-1];
+        }
+
+        public int[] CorruptEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return [
+                    NPCID.EaterofSouls,
+                    NPCID.DevourerHead,
+                    NPCID.CorruptGoldfish,
+                ];
+            }
+            if (Hardmode)
+            {
+                return[
+                    NPCID.EaterofSouls,
+                    NPCID.DevourerHead,
+                    NPCID.CorruptGoldfish,
+                    NPCID.DiggerHead,
+                    NPCID.Corruptor,
+                    NPCID.CorruptSlime,
+                    NPCID.Slimer,
+                    NPCID.Slimer2,
+                    NPCID.DarkMummy
+                ];
+            }
+            return [-1];
+        }
+
+        public int[] HellEnemies(bool Hardmode, bool MechBoss)
+        {
+            if (!MechBoss && !Hardmode)
+            {
+                return [
+                    NPCID.Hellbat,
+                    NPCID.LavaSlime,
+                    NPCID.FireImp,
+                    NPCID.Demon,
+                    NPCID.VoodooDemon,
+                    NPCID.BoneSerpentHead
+                ];
+            }
+            if (Hardmode)
+            {
+                return [
+                    NPCID.Hellbat,
+                    NPCID.LavaSlime,
+                    NPCID.FireImp,
+                    NPCID.Demon,
+                    NPCID.VoodooDemon,
+                    NPCID.BoneSerpentHead,
+                    NPCID.DemonTaxCollector,
+                    NPCID.Mimic
+                ];
+            }
+            if (MechBoss)
+            {
+                return[
+                    NPCID.Hellbat,
+                    NPCID.LavaSlime,
+                    NPCID.FireImp,
+                    NPCID.Demon,
+                    NPCID.VoodooDemon,
+                    NPCID.BoneSerpentHead,
+                    NPCID.DemonTaxCollector,
+                    NPCID.Mimic,
+                    NPCID.Lavabat,
+                    NPCID.RedDevil
+                ];
+            }
+            return [-1];
+        }
+
+        public int[] SkyEnemies(bool Hardmode)
+        {
+            if (!Hardmode)
+            {
+                return [
+                    NPCID.Harpy,
+                ];
+            }
+            if (Hardmode)
+            {
+                return[
+                    NPCID.Harpy,
+                    NPCID.WyvernHead
+                ];
+            }
+            return [-1];
         }
     }
 }
