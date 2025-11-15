@@ -14,7 +14,7 @@ namespace OpusLib.Content.Helpers
         /// NPCs that should be ignored for drop purposes when doing global drops.
         /// <para/> Most included are extensions like Moon Lord parts, single-use NPCs like the unconscious bartender, and projectile NPCs like Vile Spit.
         /// </summary>
-        public int[] IgnoreEnemies = new int[]
+        public static int[] IgnoreEnemies = new int[]
         {
             NPCID.MoonLordFreeEye,
             NPCID.MoonLordHand,
@@ -69,7 +69,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains members of the Diabolic Faction.
         /// </summary>
-        public int[] DiabolicFactionEnemiesExclusive = new int[]
+        public static int[] DiabolicFactionEnemiesExclusive = new int[]
         {
             NPCID.DiabolistRed,
             NPCID.DiabolistWhite
@@ -78,7 +78,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains members of the Molten Legion.
         /// </summary>
-        public int[] MoltenLegionEnemiesExclusive = new int[]
+        public static int[] MoltenLegionEnemiesExclusive = new int[]
         {
             NPCID.HellArmoredBones,
             NPCID.HellArmoredBonesMace,
@@ -89,7 +89,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains all enemies that spawn in Dungeon Areas with Tiled Walls.
         /// </summary>
-        public int[] TiledWallsEnemies = new int[]
+        public static int[] TiledWallsEnemies = new int[]
         {
             NPCID.DiabolistRed,
             NPCID.DiabolistWhite,
@@ -102,7 +102,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains members of the Ragged Brotherhood.
         /// </summary>
-        public int[] RaggedBrotherhoodEnemiesExclusive = new int[]
+        public static int[] RaggedBrotherhoodEnemiesExclusive = new int[]
         {
             NPCID.RaggedCaster,
             NPCID.RaggedCasterOpenCoat
@@ -111,7 +111,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains members of the Rusted Company.
         /// </summary>
-        public int[] RustedCompanyEnemiesExclusive = new int[]
+        public static int[] RustedCompanyEnemiesExclusive = new int[]
         {
             NPCID.RustyArmoredBonesAxe,
             NPCID.RustyArmoredBonesFlail,
@@ -122,7 +122,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains all enemies that spawn in Dungeon Areas with Slab Walls.
         /// </summary>
-        public int[] SlabWallsDungeonEnemies = new int[]
+        public static int[] SlabWallsDungeonEnemies = new int[]
         {
             NPCID.RaggedCaster,
             NPCID.RaggedCasterOpenCoat,
@@ -135,7 +135,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains members of the Necromantic Faction.
         /// </summary>
-        public int[] NecromanticFactionEnemies = new int[]
+        public static int[] NecromanticFactionEnemies = new int[]
         {
             NPCID.Necromancer,
             NPCID.NecromancerArmored
@@ -144,7 +144,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains members of the Marching Bones.
         /// </summary>
-        public int[] MarchingBonesFactionEnemies = new int[]
+        public static int[] MarchingBonesFactionEnemies = new int[]
         {
             NPCID.BlueArmoredBones,
             NPCID.BlueArmoredBonesMace,
@@ -155,7 +155,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains all enemies that spawn in Dungeon Areas with Brick Walls.
         /// </summary>
-        public int[] BrickWallsDungeonEnemies = new int[]
+        public static int[] BrickWallsDungeonEnemies = new int[]
         {
             NPCID.Necromancer,
             NPCID.NecromancerArmored,
@@ -168,7 +168,7 @@ namespace OpusLib.Content.Helpers
         /// <summary>
         /// Contains all enemies encountered during the Pumpkin Moon Event
         /// </summary>
-        public int[] PumpkinMoonEnemies = new int[]
+        public static int[] PumpkinMoonEnemies = new int[]
         {
             NPCID.Scarecrow1,
             NPCID.Scarecrow2,
@@ -191,7 +191,7 @@ namespace OpusLib.Content.Helpers
         /// </summary>
         /// <param name="Wave"></param>
         /// <returns></returns>
-        public int[] PumpkinMoveGetWaveEnemies(int Wave)
+        public static int[] PumpkinMoveGetWaveEnemies(int Wave)
         {
             if (Wave < 0)
             {
@@ -307,12 +307,77 @@ namespace OpusLib.Content.Helpers
             NPCID.Scarecrow10];
         }
 
-        public int[] Zombies = new int[]
-        {
-            -65, -64, -63, -62, -61, -60, -59, -58, -57, -55, -54, -52, -48, -47, -46, -45, -44, -43, -42, -41, -40, -39, -38, -37, -36, -35, -34, -33, -32, -31
-        };
+        public static int[] Zombies = [
+            -65,
+            -64,
+            -63,
+            -62,
+            -61,
+            -60,
+            -59,
+            -58,
+            -57,
+            -55,
+            -54,
+            -52,
+            -48,
+            -47,
+            -46,
+            -45,
+            -44,
+            -43,
+            -42,
+            -41,
+            -40,
+            -39,
+            -38,
+            -37,
+            -36,
+            -35,
+            -34,
+            -33,
+            -32,
+            -31];
 
-        public int[] DemonEyes = new int[]
+
+        public static int[] Skeletons = [
+            21,
+            499,
+            -46,
+            -47,
+            201,
+            450,
+            -48,
+            -49,
+            202,
+            451,
+            -50,
+            -51,
+            203,
+            452,
+            -52,
+            -53,
+            322,
+            323,
+            324,
+            ..TiledWallsEnemies,
+            ..SlabWallsDungeonEnemies,
+            ..BrickWallsDungeonEnemies,
+            NPCID.BoneLee,
+            NPCID.SkeletonCommando,
+            NPCID.TacticalSkeleton,
+            NPCID.SporeSkeleton,
+            481,
+            NPCID.SkeletonArcher,
+            NPCID.Tim,
+            NPCID.UndeadMiner,
+            NPCID.UndeadViking,
+            NPCID.ArmoredViking,
+            NPCID.ArmoredSkeleton,
+            NPCID.SkeletonSniper,
+            NPCID.RuneWizard
+        ];
+        public static int[] DemonEyes = new int[]
         {
             2, -43, 190, -38, 191, -39, 192, -40, 193, -41, 194, -42, 317, 318
         };

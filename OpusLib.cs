@@ -18,11 +18,26 @@ namespace OpusLib
 {
 	public class Opus : Mod
 	{
+		public override void Load()
+		{
+			//Uncomment this to test chest registration. It is a guaranteed Aarons helmet in every surface chest in the world.
+			/*
+			ChestLootSystem.RegisterChestLoot(
+				ChestID.Wooden,
+				ItemID.AaronsHelmet,
+				stack: 1,
+				rarity: 1f
+			);
+			*/
+
+		}
+
 		public static bool HasJingled = false;
         public override void Unload()
         {
 			HasJingled = false;
         }
+		
 		public static void BuffDust(int DustType, Player target, int ChancePerTick = 5, float DustScale = 1f, float DustVelX = 0f, float DustVelY = 0f, Color DustColor = default)
 		{
 			if (DustType == -1)
@@ -548,6 +563,47 @@ namespace OpusLib
 			{
 				PRTLoader.NewParticle(type, Center, Vector2.Zero, color, Scale);
 			}
+        }
+
+		public static int GetCrateByChestID(ChestID chest, bool Hard)
+        {
+			if (chest.TileType == ChestID.Wooden.TileType && chest.Style == ChestID.Wooden.Style)
+			{
+				return !Hard ? ItemID.WoodenCrate : ItemID.WoodenCrateHard;
+			}
+			if (chest.TileType == ChestID.Gold.TileType && chest.Style == ChestID.Gold.Style)
+			{
+				return !Hard ? ItemID.DungeonFishingCrate : ItemID.DungeonFishingCrateHard;
+			}
+			if (chest.TileType == ChestID.Ivy.TileType && chest.Style == ChestID.Ivy.Style)
+			{
+				return !Hard ? ItemID.JungleFishingCrate: ItemID.JungleFishingCrateHard;
+			}
+			if (chest.TileType == ChestID.SkyChest.TileType && chest.Style == ChestID.SkyChest.Style)
+			{
+				return !Hard ? ItemID.FloatingIslandFishingCrate : ItemID.FloatingIslandFishingCrateHard;
+			}
+			if (chest.TileType == ChestID.Frozen.TileType && chest.Style == ChestID.Frozen.Style)
+			{
+				return !Hard ? ItemID.FrozenCrate : ItemID.FrozenCrateHard;
+			}
+			if (chest.TileType == ChestID.Sandstone.TileType && chest.Style == ChestID.Sandstone.Style)
+			{
+				return !Hard ? ItemID.OasisCrate : ItemID.OasisCrateHard;
+			}
+			if ((chest.TileType == ChestID.ShadowLocked.TileType && chest.Style == ChestID.ShadowLocked.Style) || (chest.TileType == ChestID.Shadow.TileType && chest.Style == ChestID.Shadow.Style))
+			{
+				return !Hard ? ItemID.LavaCrate : ItemID.LavaCrateHard;
+			}
+			if (chest.TileType == ChestID.Water.TileType && chest.Style == ChestID.Water.Style)
+			{
+				return !Hard ? ItemID.OceanCrate : ItemID.OceanCrateHard;
+			}
+			if (chest.TileType == ChestID.Sandstone.TileType && chest.Style == ChestID.Sandstone.Style)
+			{
+				return !Hard ? ItemID.OasisCrate : ItemID.OasisCrateHard;
+			}
+			return -1;
         }
 	}
 	
