@@ -278,6 +278,16 @@ namespace OpusLib.Content.Helpers
             LootQueue.Add(new ChestLootEntry(chestID, itemType, Main.rand.Next(Min, Max), rarity));
         }
 
+        public static void RegisterChestLoot(ChestID chestID, List<int> table, float rarity = 1f)
+        {
+            LootQueue.Add(new ChestLootEntry(chestID, table, rarity));
+        }
+
+        public static void RegisterChestLoot(ChestID chestID, List<WeightedLootEntry> weightedtable, float rarity)
+        {
+            LootQueue.Add(new ChestLootEntry(chestID, weightedtable, rarity));
+        }
+
         public override void PostWorldGen()
         {
             foreach (var entry in LootQueue)
