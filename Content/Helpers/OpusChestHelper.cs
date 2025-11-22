@@ -177,7 +177,7 @@ namespace OpusLib.Content.Helpers
         public static readonly ChestID TrappedBalloon = new(TileID.FakeContainers2, 15);
         public static readonly ChestID TrappedAshWood = new(TileID.FakeContainers2, 16);
 
-        public static readonly ChestID TrappedIce    = TrappedFrozen; // alias
+        public static readonly ChestID TrappedIce = TrappedFrozen; // alias
         // ...add as many as you want
     }
 
@@ -186,8 +186,9 @@ namespace OpusLib.Content.Helpers
         public ChestID ChestType;
         public int ItemType;
         public int Stack;
-        public float Rarity; // 0–1 chance per chest
+        public float Rarity;
 
+        //Flat chance. Good for single-stack items or set-stacks.
         public ChestLootEntry(ChestID chestType, int item, int stack, float rarity)
         {
             ChestType = chestType;
@@ -195,11 +196,17 @@ namespace OpusLib.Content.Helpers
             Stack = stack;
             Rarity = Math.Clamp(rarity, 0f, 1f);
         }
+
+        //General loot like coins and potions benefit more from this one due to its randomization.
+        public ChestLootEntry(ChestID chestType, int item, int Min, int Max, float rarity)
+        {
+            ChestType = chestType;
+            ItemType = item;
+            Stack = Main.rand.Next(Min, Max);
+            Rarity = Math.Clamp(rarity, 0f, 1f);
+        }
     }
     
-    /// <summary>
-    /// 
-    /// </summary>
     public class ChestLootSystem : ModSystem
     {
         private static readonly List<ChestLootEntry> LootQueue = new();

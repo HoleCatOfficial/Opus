@@ -107,7 +107,7 @@ namespace OpusLib
         }
 
 		public static void RingProjectileOutward(int ID, int Amount, Vector2 CTR, float Radius,
-			int Dmg = 0, int KB = 0, int Speed = 2,
+			int Dmg = 0, int KB = 0, float Speed = 2,
 			float AI0 = 0, float AI1 = 0, float AI2 = 0,
 			bool RandomOffset = false)
 		{
@@ -135,7 +135,7 @@ namespace OpusLib
 		}
 
 		public static void RingProjectileInward(int ID, int Amount, Vector2 CTR, float Radius,
-			int Dmg = 0, int KB = 0, int Speed = 2,
+			int Dmg = 0, int KB = 0, float Speed = 2,
 			float AI0 = 0, float AI1 = 0, float AI2 = 0,
 			bool RandomOffset = false)
 		{
@@ -166,32 +166,44 @@ namespace OpusLib
 			}
 		}
 
-		public static void RingProjectileOutwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius,
-			int Dmg = 0, int KB = 0, int Speed = 2,
-			float AI0 = 0, float AI1 = 0, float AI2 = 0)
+		public static void RingDustOutwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Speed = 2, float Scale = 1f)
 		{
 			for (int i = 0; i < Amount; i++)
 			{
-				// Random direction around the circle
 				Vector2 position = CTR + Main.rand.NextVector2CircularEdge(Radius, Radius);
 				Vector2 velocity = (CTR + position) * Speed;
 
-				Projectile.NewProjectile(
-					Projectile.GetSource_None(),
-					position,
-					velocity,
-					ID,
-					Dmg,
-					KB,
-					ai0: AI0,
-					ai1: AI1,
-					ai2: AI2
-				);
+				Dust.NewDustPerfect(position, ID, velocity, Alpha, CLR, Scale);
 			}
 		}
 
+		public static void RingProjectileInwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Speed = 2, float Scale = 1f)
+		{
+			for (int i = 0; i < Amount; i++)
+			{
+				Vector2 position = CTR + Main.rand.NextVector2CircularEdge(Radius, Radius);
+				Vector2 velocity = (CTR - position) * Speed;
+				
+				Dust.NewDustPerfect(position, ID, velocity, Alpha, CLR, Scale);
+			}
+		}
+
+		public static void RingProjectileOutwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2f, float AI0 = 0f, float AI1 = 0f, float AI2 = 0f)
+		{
+			for (int i = 0; i < Amount; i++)
+			{
+				Vector2 spawnPos = CTR + Main.rand.NextVector2CircularEdge(Radius, Radius);
+
+				Vector2 direction = Vector2.Normalize(spawnPos - CTR);
+				Vector2 velocity = direction * Speed;
+
+				Projectile.NewProjectile(Entity.GetSource_None(), spawnPos, velocity, ID, Dmg, KB, -1, AI0, AI1, AI2);
+			}
+		}
+
+
 		public static void RingProjectileInwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius,
-			int Dmg = 0, int KB = 0, int Speed = 2,
+			int Dmg = 0, int KB = 0, float Speed = 2,
 			float AI0 = 0, float AI1 = 0, float AI2 = 0)
 		{
 			for (int i = 0; i < Amount; i++)
@@ -215,7 +227,7 @@ namespace OpusLib
 
 		public static void RadialSpreadProjectile(
             int ID, int Amount, Vector2 CTR,
-            int Dmg = 0, int KB = 0, int Speed = 2,
+            int Dmg = 0, int KB = 0, float Speed = 2,
             float AI0 = 0, float AI1 = 0, float AI2 = 0,
             bool RandomOffset = false)
         {
@@ -261,6 +273,65 @@ namespace OpusLib
 				Pr.hostile = hostile;
 			}
 		}
+
+		public static void RadialSpreadDust(int ID, int Amount, Vector2 CTR,  int Alpha, Color CLR, float Scale = 1f, float Speed = 2, bool RandomOffset = false)
+        {
+            float rotationStep = MathHelper.TwoPi / Amount;
+            float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
+
+            for (int i = 0; i < Amount; i++)
+            {
+                float angle = rotationStep * i + baseRotation;
+                Vector2 velocity = new Vector2(Speed, 0f).RotatedBy(angle);
+
+				Dust.NewDustPerfect(CTR, ID, velocity, Alpha, CLR, Scale);
+            }
+        }
+
+		public static void RadialDustRandomDir(int ID, int Amount, Vector2 CTR, int Alpha, Color CLR, float Scale = 1f, float Speed = 2f)
+		{
+			for (int i = 0; i < Amount; i++)
+			{
+				Vector2 velocity = new Vector2(Speed, 0f).RotatedByRandom(MathHelper.TwoPi);
+				Dust.NewDustPerfect(CTR, ID, velocity, Alpha, CLR, Scale);
+			}
+		}
+
+		public static void RingDustOutward(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Scale = 1f, float Speed = 2, bool RandomOffset = false)
+		{
+			float rotationStep = MathHelper.TwoPi / Amount;
+			float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
+
+			for (int i = 0; i < Amount; i++)
+			{
+				float angle = rotationStep * i + baseRotation;
+				Vector2 position = CTR + new Vector2(Radius, 0f).RotatedBy(angle);
+				Vector2 velocity = new Vector2(Speed, 0f).RotatedBy(angle);
+
+				Dust.NewDustPerfect(position, ID, velocity, Alpha, CLR, Scale);
+			}
+		}
+
+		public static void RingDustInward(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Scale = 1f, float Speed = 2, bool RandomOffset = false)
+		{
+			float rotationStep = MathHelper.TwoPi / Amount;
+			float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
+
+			for (int i = 0; i < Amount; i++)
+			{
+				float angle = rotationStep * i + baseRotation;
+				Vector2 position = CTR + new Vector2(Radius, 0f).RotatedBy(angle);
+
+				// Direction from ring point toward center
+				Vector2 direction = (CTR - position).SafeNormalize(Vector2.Zero);
+
+				Vector2 velocity = direction * Speed;
+
+				Dust.NewDustPerfect(position, ID, velocity, Alpha, CLR, Scale);
+			}
+		}
+
+		
 
 		/// <summary>
         /// Returns an array of Vectors that all are <i> radius </i> away from <i> center </i>, equidistantly spaced.
