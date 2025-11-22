@@ -181,6 +181,31 @@ namespace OpusLib.Content.Helpers
         // ...add as many as you want
     }
 
+    public struct WeightedLootEntry
+    {
+        public int ItemType;
+        public int Stack;
+        public float Weight;
+
+        public WeightedLootEntry(int itemType, int stack, float weight)
+        {
+            ItemType = itemType;
+            Stack = stack;
+            Weight = weight;
+        }
+
+        public WeightedLootEntry(int itemType, int min, int max, float weight)
+        {
+            if (max < min)
+                throw new Exception("Chest Loot Creation Via Opus has failed. Maximum Stack must be Equal to or Greater Than the Minimum Stack.");
+                
+            ItemType = itemType;
+            Stack = Main.rand.Next(min, max);
+            Weight = weight;
+        }
+    }
+
+
     public class ChestLootEntry
     {
         public ChestID ChestType;
@@ -188,7 +213,15 @@ namespace OpusLib.Content.Helpers
         public int Stack;
         public float Rarity;
 
-        //Flat chance. Good for single-stack items or set-stacks.
+        // Flat table: equal chance for each item
+        public List<int>? LootTable = null;
+
+        // Weighted table: each entry has its own weight
+        public List<WeightedLootEntry>? WeightedLootTable = null;
+
+        // ───────────────────────────────────────────────
+
+        // Flat single-entry (original)
         public ChestLootEntry(ChestID chestType, int item, int stack, float rarity)
         {
             ChestType = chestType;
@@ -197,19 +230,35 @@ namespace OpusLib.Content.Helpers
             Rarity = Math.Clamp(rarity, 0f, 1f);
         }
 
-        //General loot like coins and potions benefit more from this one due to its randomization.
-        public ChestLootEntry(ChestID chestType, int item, int Min, int Max, float rarity)
+        // Flat stack range (original)
+        public ChestLootEntry(ChestID chestType, int item, int min, int max, float rarity)
         {
-            if (Max < Min)
-            {
+            if (max < min)
                 throw new Exception("Chest Loot Creation Via Opus has failed. Maximum Stack must be Equal to or Greater Than the Minimum Stack.");
-            }
+
             ChestType = chestType;
             ItemType = item;
-            Stack = Main.rand.Next(Min, Max);
+            Stack = Main.rand.Next(min, max);
+            Rarity = Math.Clamp(rarity, 0f, 1f);
+        }
+
+        // New: flat loot table
+        public ChestLootEntry(ChestID chestType, List<int> lootTable, float rarity)
+        {
+            ChestType = chestType;
+            LootTable = lootTable;
+            Rarity = Math.Clamp(rarity, 0f, 1f);
+        }
+
+        // New: weighted loot table
+        public ChestLootEntry(ChestID chestType, List<WeightedLootEntry> weightedTable, float rarity)
+        {
+            ChestType = chestType;
+            WeightedLootTable = weightedTable;
             Rarity = Math.Clamp(rarity, 0f, 1f);
         }
     }
+
     
     public class ChestLootSystem : ModSystem
     {

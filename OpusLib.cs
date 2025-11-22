@@ -676,6 +676,43 @@ namespace OpusLib
 			}
 			return -1;
         }
+
+		public static List<WeightedLootEntry> CommonPotion = new List<WeightedLootEntry>()
+		{
+			new WeightedLootEntry(ItemID.LesserHealingPotion, 2, 17, 0.75f),
+			new WeightedLootEntry(ItemID.HealingPotion, 2, 8, 0.5f),
+			new WeightedLootEntry(ItemID.LesserManaPotion, 2, 17, 0.75f),
+			new WeightedLootEntry(ItemID.ManaPotion, 2, 8, 0.5f),
+			new WeightedLootEntry(ItemID.RecallPotion, 2, 8, 0.3f),
+			new WeightedLootEntry(GetRandomCombatPotion(), 1, 6, 0.5f),
+			new WeightedLootEntry(GetRandomUtilityPotion(), 1, 6, 0.5f),
+		};
+
+		public static int GetRandomCombatPotion()
+        {
+            List<int> options = new List<int> { ItemID.TitanPotion, 
+			ItemID.ThornsPotion, ItemID.TrapsightPotion, ItemID.HunterPotion, 
+			ItemID.BattlePotion, ItemID.MagicPowerPotion, ItemID.ArcheryPotion,
+			ItemID.AmmoReservationPotion, ItemID.IronskinPotion, ItemID.EndurancePotion,
+			ItemID.SummoningPotion, ItemID.RestorationPotion};
+			return options[Main.rand.Next(options.Count)];
+        }
+
+		public static int GetRandomUtilityPotion()
+        {
+			List<int> options = new List<int> { ItemID.SwiftnessPotion, 
+			ItemID.PotionOfReturn, ItemID.RedPotion, ItemID.LovePotion, 
+			ItemID.LuckPotionLesser, ItemID.CratePotion, ItemID.GillsPotion, 
+			ItemID.ShinePotion, ItemID.SonarPotion, ItemID.StinkPotion, 
+			ItemID.MiningPotion, ItemID.WarmthPotion, ItemID.BuilderPotion, 
+			ItemID.CalmingPotion, ItemID.FishingPotion, ItemID.FlipperPotion, 
+			ItemID.NightOwlPotion, ItemID.WormholePotion, ItemID.LifeforcePotion,
+			ItemID.BiomeSightPotion, ItemID.FeatherfallPotion, ItemID.GenderChangePotion,
+			ItemID.InvisibilityPotion, ItemID.ObsidianSkinPotion, ItemID.WaterWalkingPotion,
+			ItemID.TeleportationPotion, ItemID.SpelunkerPotion };
+            return options[Main.rand.Next(options.Count)];
+        }
+
 	}
 	
 	public class OpusEnterWorldPlayer : ModPlayer

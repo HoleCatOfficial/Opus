@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OpusLib")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4ded524ad405e98491846c68b1d456a971c2695")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67683f468003c27afb329b486f497732095377bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("OpusLib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OpusLib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
