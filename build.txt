@@ -3,3 +3,4 @@ author = HoleCat
 version = 0.1.1
 modReferences = InnoVault
 dependencies = InnoVault
+buildIgnore = .csproj, .sln

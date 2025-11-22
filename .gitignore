@@ -1,0 +1,32 @@
+# Visual Studio stuff
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.editorconfig
+
+# Build results
+bin/
+obj/
+.vs/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+
+# MonoGame/XNA specific
+Content/bin/
+Content/obj/
+
+# Terraria ModLoader
+*.tmod
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Others
+*.vspscc
+*.vssscc

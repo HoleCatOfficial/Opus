@@ -200,6 +200,10 @@ namespace OpusLib.Content.Helpers
         //General loot like coins and potions benefit more from this one due to its randomization.
         public ChestLootEntry(ChestID chestType, int item, int Min, int Max, float rarity)
         {
+            if (Max < Min)
+            {
+                throw new Exception("Chest Loot Creation Via Opus has failed. Maximum Stack must be Equal to or Greater Than the Minimum Stack.");
+            }
             ChestType = chestType;
             ItemType = item;
             Stack = Main.rand.Next(Min, Max);
@@ -214,6 +218,15 @@ namespace OpusLib.Content.Helpers
         public static void RegisterChestLoot(ChestID chestID, int itemType, int stack = 1, float rarity = 1f)
         {
             LootQueue.Add(new ChestLootEntry(chestID, itemType, stack, rarity));
+        }
+
+        public static void RegisterChestLoot(ChestID chestID, int itemType, int Min = 1, int Max = 1, float rarity = 1f)
+        {
+            if (Max < Min)
+            {
+                throw new Exception("Chest Loot Restration Via Opus has failed. Maximum Stack must be Equal to or Greater Than the Minimum Stack.");
+            }
+            LootQueue.Add(new ChestLootEntry(chestID, itemType, Main.rand.Next(Min, Max), rarity));
         }
 
         public override void PostWorldGen()
