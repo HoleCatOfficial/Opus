@@ -45,5 +45,15 @@ ib: {
 				$parentVal: Welcome To Opus
 			}
 		}
+
+		PlaceablePot: {
+			Tooltip: {
+				$parentVal: ""
+			}
+
+			DisplayName: {
+				$parentVal: Placeable Pot
+			}
+		}
 	}
 }

@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using InnoVault.PRT;
 using Terraria.Audio;
 using Terraria.ModLoader.Config;
+using MonoMod.Cil;
 
 namespace OpusLib
 {
@@ -20,17 +21,90 @@ namespace OpusLib
 	{
 		public override void Load()
 		{
-			//Uncomment this to test chest registration. It is a guaranteed Aarons helmet in every surface chest in the world.
-			/*
-			ChestLootSystem.RegisterChestLoot(
-				ChestID.Wooden,
-				ItemID.AaronsHelmet,
-				stack: 1,
-				rarity: 1f
-			);
-			*/
-
+			IL_Player.ItemCheck_Inner += IL_Player_ItemCheck_Inner;
 		}
+
+		// Thank you to Ramona on the modding forum for helping with this!
+		public static void IL_Player_ItemCheck_Inner(ILContext il)
+		{
+			ILCursor cur = new ILCursor(il);
+		
+			// moves to after the "bool allowChannel = this.controlUseItem" statement
+			cur.GotoNext(MoveType.After,
+				// Matches to "this"
+				i => i.MatchLdarg0(),
+				// Matches to ".controlUseItem"
+				i => i.MatchLdfld<Player>("controlUseItem"),
+				// Matches to "allowChannel = "
+				i => i.MatchStloc(6)
+			);
+		
+			// Pushes "this"
+			cur.EmitLdarg0();
+			// Pushes "currentHeldItem" (an already existing local variable in
+			//   Player.ItemCheck_Inner() that stores the palyer's held item)
+			cur.EmitLdloc1();
+			// Pushes "ref allowChannel"
+			cur.EmitLdloca(6);
+			// Calls MyLoadingClass.ModifyAllowChannel() with the last 3 things pushed/on_the_stack as the arguments
+			cur.EmitCall(typeof(Opus).GetMethod("ModifyAllowChannel"));
+		}
+
+		/*
+		Something to note is that player.controlUseItem keeps track if the player is left clicking, and player.controlUseTile keep track of right clicking. 
+		This means that whatever the MountID.Drill is, it's an example of channeling with right click. 
+		Also note that, even without this modification, it is still to possible to channel with right click if the player begins holding left click at the perfect moment!
+		- Ramona
+		*/
+
+		/// <summary>
+        /// Allows the changing of whether an item channels in left or right clicking.
+		/// <para/> By default, this will allow channeling on right click but not on left click, Invert does the opposite of that. 
+		/// <para/>This only affects items in ItemChannel_RightChannel_LeftNot and ItemChannel_LeftChannel_RightNot.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="heldItem"></param>
+        /// <param name="Invert"></param>
+        /// <param name="allowChannel"></param>
+		public static void ModifyAllowChannel(Player player, Item ItemToModify, bool Invert, ref bool allowChannel)
+		{
+			if (!Invert)
+			{
+				if(ItemChannel_RightChannel_LeftNot.Contains(ItemToModify.type) && player.HeldItem == ItemToModify)
+				{
+					// Disable channeling for left click:
+					if(player.altFunctionUse == 0)
+						allowChannel = false;
+				
+					// Enable channeling for right click:
+					if(player.altFunctionUse != 0)
+						allowChannel = player.controlUseTile;
+				}
+			}
+			if (Invert)
+			{
+				if(ItemChannel_LeftChannel_RightNot.Contains(ItemToModify.type) && player.HeldItem == ItemToModify)
+				{
+					// Disable channeling for left click:
+					if(player.altFunctionUse == 0)
+						allowChannel = player.controlUseItem;
+				
+					// Enable channeling for right click:
+					if(player.altFunctionUse != 0)
+						allowChannel = false;
+				}
+			}
+		}
+
+		public static List<int> ItemChannel_LeftChannel_RightNot = new List<int>()
+		{
+			-1
+		};
+
+		public static List<int> ItemChannel_RightChannel_LeftNot = new List<int>()
+		{
+			-1
+		};
 
 		public static bool HasJingled = false;
         public override void Unload()
@@ -622,18 +696,16 @@ namespace OpusLib
             spriteBatch.Begin(ssm, blendState, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
+		public static void StartSpriteBatchForTrails(SpriteBatch spriteBatch, BlendState blendState, SpriteSortMode ssm)
+        {
+			spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+		}
+
         public static void ReturnToDefaultDrawing(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-        }
-
-        public static void BurstParticle(int type, int Amount, Vector2 Center, Color color, float Scale = 1f, float Radius = 6f)
-		{
-			for (int i = 0; i < Amount; i++)
-			{
-				PRTLoader.NewParticle(type, Center, Vector2.Zero, color, Scale);
-			}
         }
 
 		public static int GetCrateByChestID(ChestID chest, bool Hard)
