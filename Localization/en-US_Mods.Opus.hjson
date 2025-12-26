@@ -1,58 +1,65 @@
 Items: {
-	WelcomeToOpus: {
-		DisplayName: Welcome To Opus
-		Tooltip: How to use the Opus Book System
-	}
-}
-
-Configs: {
-	OpusConfig: {
-		DisplayName: Opus Config
-
-		PlayJingleOnEnterWorldFirstTime: {
-			Label: Play Jingle On Enter World First Time
-			Tooltip: ""
-		}
-	}
-}
-
-ib: {
 	Configs: {
 		OpusConfig: {
 			PlayJingleOnEnterWorldFirstTime: {
-				Tooltip: {
-					$parentVal: ""
-				}
-
-				Label: {
-					$parentVal: Play Jingle On Enter World First Time
-				}
+				Tooltip: Toggles the Opus Jingle. It gets old, so I don't blame you for turning this off.
+				Label: Play Jingle when entering a world for the first time
 			}
 
-			DisplayName: {
-				$parentVal: Opus Config
-			}
+			DisplayName: Opus Config
 		}
 	}
 
 	Items: {
 		WelcomeToOpus: {
-			Tooltip: {
-				$parentVal: ""
-			}
-
-			DisplayName: {
-				$parentVal: Welcome To Opus
-			}
+			Tooltip: ""
+			DisplayName: Welcome To Opus
 		}
 
 		PlaceablePot: {
+			Tooltip: Places a breakable pot tile.
+			DisplayName: Placeable Pot
+		}
+	}
+}
+
+ib: {
+	Items: {
+		PlaceablePot: {
+			DisplayName: {
+				$parentVal: Placeable Pot
+			}
+
 			Tooltip: {
 				$parentVal: ""
 			}
+		}
 
+		WelcomeToOpus: {
 			DisplayName: {
-				$parentVal: Placeable Pot
+				$parentVal: Welcome To Opus
+			}
+
+			Tooltip: {
+				$parentVal: ""
+			}
+		}
+	}
+
+	Configs: {
+		OpusConfig: {
+			DisplayName: {
+				$parentVal: Opus Config
+			}
+
+			PlayJingleOnEnterWorldFirstTime: {
+				Label: {
+					$parentVal: Play Jingle On Enter World First Time
+				}
+
+				Tooltip: {
+					$parentVal: ""
+				}
 			}
 		}
 	}

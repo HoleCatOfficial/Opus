@@ -17,8 +17,8 @@ obj/
 *.log
 
 # MonoGame/XNA specific
-Content/bin/
-Content/obj/
+bin/
+obj/
 
 # Terraria ModLoader
 *.tmod

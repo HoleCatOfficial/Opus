@@ -1,6 +1,6 @@
 displayName = Opus Utilities
 author = HoleCat
-version = 1.4
+version = 1.411
 modReferences = InnoVault
 dependencies = InnoVault
 buildIgnore = .csproj, .sln
