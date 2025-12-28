@@ -15,6 +15,7 @@ using Terraria.Audio;
 using Terraria.ModLoader.Config;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
+using Terraria.GameContent;
 
 namespace OpusLib
 {
@@ -945,6 +946,22 @@ namespace OpusLib
 		public static Vector3 Sine(Vector3 Value1, Vector3 Value2, float Speed = 0.05f)
 		{
 			return new Vector3(Sine(Value1.X, Value2.X, Speed), Sine(Value1.Y, Value2.Y, Speed), Sine(Value1.Z, Value2.Z, Speed));
+		}
+
+		public void DrawProjectileShadowsStatic(Projectile Proj, float dist)
+		{
+			Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, dist) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, -dist) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(dist, 0) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(-dist, 0) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+		}
+
+		public void DrawProjectileShadowsStatic(Projectile Proj, float dist, Color drawColor)
+		{
+			Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, dist) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, -dist) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(dist, 0) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(-dist, 0) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
 		}
 
 	}
