@@ -1,7 +1,9 @@
 Opus is a general-purpose utility mod, with a focus on practicality.
 It is easy to use alongside your mod, only has one dependency, and has optimization options in the configuration.
 
-Opus is composed of these core components:
-- Opus, which contains most of the useful methods you can call.
-- OpusColorUtils, which has a helper method for getting a color with an alpha.
-- OpusBook, a book system that allows you to register books page-by-page and read through them with an in-game UI. Supports localized text, but is finnecky in that case.
+Opus offers:
+- Chest loot modification using ChestID and multiple loot entry styles.
+- An NPCAudioTracker class to allow Looped Audio with NPCs similarly to Projectiles and ProjectileAudioTracker.
+- OpusColor, which currently only offers alpha modification.
+- Multiple lists of NPCs for easy loot tableing for groups such as Zombies, Solar Eclipse enemies, Dungeon Factions, etc.
+- Placeable pots that can be used to populate custom builds.
