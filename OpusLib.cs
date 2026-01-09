@@ -439,7 +439,7 @@ namespace OpusLib
         }
 
 		//Evenly Spaced, Starts at the Center. Moves out.
-		public static void RadialSpreadParticle(int ID, int Amount, Vector2 CTR,  int Alpha = 1, Color CLR= default, float Scale = 1f, float Speed = 2, float ai0 = 0, float ai1 = 0, float ai2 = 0, bool RandomOffset = false)
+		public static void RadialSpreadParticle(int ID, int Amount, Vector2 CTR,  float Alpha = 1, Color CLR= default, float Scale = 1f, float Speed = 2, float ai0 = 0, float ai1 = 0, float ai2 = 0, bool RandomOffset = false)
         {
             float rotationStep = MathHelper.TwoPi / Amount;
             float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
@@ -462,7 +462,7 @@ namespace OpusLib
         }
 		
 		//Randomly Spaced, Starts at the Center. Moves out.
-		public static void RadialParticleRandomDir(int ID, int Amount, Vector2 CTR, int Alpha = 1, Color CLR = default, float Scale = 1f, float Speed = 2f, float ai0 = 0, float ai1 = 0, float ai2 = 0)
+		public static void RadialParticleRandomDir(int ID, int Amount, Vector2 CTR, float Alpha = 1, Color CLR = default, float Scale = 1f, float Speed = 2f, float ai0 = 0, float ai1 = 0, float ai2 = 0)
 		{
 			for (int i = 0; i < Amount; i++)
 			{
@@ -481,7 +481,7 @@ namespace OpusLib
 		}
 		
 		//Evenly Spaced, but does not start at the center. Moves out.
-		public static void RingParticleOutward(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Scale = 1f, float Speed = 2, float ai0 = 0, float ai1 = 0, float ai2 = 0, bool RandomOffset = false)
+		public static void RingParticleOutward(int ID, int Amount, Vector2 CTR, float Radius, float Alpha, Color CLR, float Scale = 1f, float Speed = 2, float ai0 = 0, float ai1 = 0, float ai2 = 0, bool RandomOffset = false)
 		{
 			float rotationStep = MathHelper.TwoPi / Amount;
 			float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
@@ -505,7 +505,7 @@ namespace OpusLib
 		}
 		
 		//Randomly Spaced, but does not start at the center. Moves out.
-		public static void RingParticleOutwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Speed = 2, float Scale = 1f, float ai0 = 0, float ai1 = 0, float ai2 = 0)
+		public static void RingParticleOutwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, float Alpha, Color CLR, float Speed = 2, float Scale = 1f, float ai0 = 0, float ai1 = 0, float ai2 = 0)
 		{
 			for (int i = 0; i < Amount; i++)
 			{
@@ -525,7 +525,7 @@ namespace OpusLib
 		}
 		
 		//Evenly Spaced, but does not start at the center. Moves in.
-		public static void RingParticleInward(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Scale = 1f, float Speed = 2, float ai0 = 0, float ai1 = 0, float ai2 = 0, bool RandomOffset = false)
+		public static void RingParticleInward(int ID, int Amount, Vector2 CTR, float Radius, float Alpha, Color CLR, float Scale = 1f, float Speed = 2, float ai0 = 0, float ai1 = 0, float ai2 = 0, bool RandomOffset = false)
 		{
 			float rotationStep = MathHelper.TwoPi / Amount;
 			float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
@@ -553,7 +553,7 @@ namespace OpusLib
 		}
 
 		//Randomly Spaced, but does not start at the center. Moves in.
-		public static void RingParticleInwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Alpha, Color CLR, float Speed = 2, float Scale = 1f, float ai0 = 0, float ai1 = 0, float ai2 = 0)
+		public static void RingParticleInwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, float Alpha, Color CLR, float Speed = 2, float Scale = 1f, float ai0 = 0, float ai1 = 0, float ai2 = 0)
 		{
 			for (int i = 0; i < Amount; i++)
 			{
@@ -1030,6 +1030,90 @@ namespace OpusLib
             Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, (npc.Center + new Vector2(dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
             Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, (npc.Center + new Vector2(-dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
 		}
+
+		public static void RectDustRandom(int ID, Rectangle Rect, Color color, float scale, int amount = 10)
+		{
+			for (int i = 0; i < amount; i++)
+			{
+				int edge = Main.rand.Next(4);
+				Vector2 pos;
+
+				switch (edge)
+				{
+					case 0: // top
+						pos = new Vector2(
+							Main.rand.NextFloat(Rect.Left, Rect.Right),
+							Rect.Top
+						);
+						break;
+
+					case 1: // right
+						pos = new Vector2(
+							Rect.Right,
+							Main.rand.NextFloat(Rect.Top, Rect.Bottom)
+						);
+						break;
+
+					case 2: // bottom
+						pos = new Vector2(
+							Main.rand.NextFloat(Rect.Left, Rect.Right),
+							Rect.Bottom
+						);
+						break;
+
+					default: // left
+						pos = new Vector2(
+							Rect.Left,
+							Main.rand.NextFloat(Rect.Top, Rect.Bottom)
+						);
+						break;
+				}
+
+				Dust d = Dust.NewDustPerfect(pos, ID, Vector2.Zero);
+				d.color = color;
+				d.scale = scale;
+				d.noGravity = true;
+			}
+		}
+
+
+		public static void RectDustLooping(int ID, Rectangle Rect, Color color, float scale, int amount = 10, int direction = 1, float Speed = 2)
+		{
+
+			Vector2[] corners =
+			{
+				new(Rect.Left,  Rect.Top),
+				new(Rect.Right, Rect.Top),
+				new(Rect.Right, Rect.Bottom),
+				new(Rect.Left,  Rect.Bottom)
+			};
+
+			if (direction < 0)
+				Array.Reverse(corners);
+
+			for (int e = 0; e < 4; e++)
+			{
+				Vector2 start = corners[e];
+				Vector2 end   = corners[(e + 1) % 4];
+
+				Vector2 dir = end - start;
+				float length = dir.Length();
+				dir.Normalize();
+
+				float spacing = length / amount;
+
+				for (float i = 0; i < length; i += spacing)
+				{
+					Vector2 pos = start + dir * (i + (Speed * direction));
+
+					Dust d = Dust.NewDustPerfect(pos, ID, Vector2.Zero);
+					d.color = color;
+					d.scale = scale;
+					d.noGravity = true;
+				}
+			}
+		}
+
 	}
 	
 	public class OpusEnterWorldPlayer : ModPlayer
