@@ -5,14 +5,63 @@ using Terraria.ID;
 
 namespace OpusLib.Content.Helpers
 {
+
+    public class SimpleLine
+    {
+        public Vector2 Start;
+        public Vector2 End;
+
+        public SimpleLine(Vector2 start, Vector2 end)
+        {
+            Start = start;
+            End = end;
+        }
+
+        protected float LineLength()
+        {
+            return Start.Distance(End);
+        }
+
+        public float LineRotation()
+        {
+            Vector2 Dir = End - Start;
+            return Dir.ToRotation();
+        }
+
+        public float GetLineLength => LineLength();
+        public float GetLineRotation => LineRotation();
+
+        public Vector2[]? GetPointsAlongLine(int Divisions = 1)
+        {
+            if (Divisions < 1)
+            {
+                return null;
+            }
+            Vector2[] points = new Vector2[Divisions + 1];
+            
+            for (int i = 0; i <= Divisions; i++)
+            {
+                float t = i / (float)Divisions;
+                points[i] = Vector2.Lerp(Start, End, t);
+            }
+            
+            return points;
+        }
+    }
     /// <summary>
     /// This is a line!
     /// <br/> This class is a Linear Value from one Vector2 to another, meaning it wont bend or ignore any obstacles and will stretch as long as needed to span the gap!
     /// </summary>
-    public abstract class Line
+    public class Line
     {
         public Vector2 Start;
         public Vector2 End;
+
+        public Line(Vector2 start, Vector2 end)
+        {
+            Start = start;
+            End = end;
+        }
 
         public virtual bool ShouldUpdate()
         {
