@@ -1142,82 +1142,150 @@ namespace OpusLib
 			return new Color(Sine(color1.R, color2.R, Speed), Sine(color1.G, color2.G, Speed), Sine(color1.B, color2.B, Speed));
 		}
 
-		public static void DrawProjectileShadowsStatic(Projectile Proj, float dist)
+		public static void DrawProjectileShadow(Projectile proj, Vector2 offset, Color color, float rotationOffset = 0f)
 		{
-			Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, dist) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, -dist) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(dist, 0) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(-dist, 0) - Main.screenPosition, null, Color.White * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+			Texture2D tex = TextureAssets.Projectile[proj.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				proj.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				null,
+				color * 0.5f,
+				proj.rotation,
+				tex.Size() / 2f,
+				proj.scale,
+				SpriteEffects.None,
+				0
+			);
 		}
 
-		public static void DrawProjectileShadowsStatic(Projectile Proj, float dist, Color drawColor)
+		public static void DrawProjectileShadow(Projectile proj, Rectangle frame, Vector2 offset, Color color, float rotationOffset = 0f)
 		{
-			Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, dist) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(0, -dist) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(dist, 0) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, Proj.Center + new Vector2(-dist, 0) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+			Texture2D tex = TextureAssets.Projectile[proj.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				proj.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				frame,
+				color * 0.5f,
+				proj.rotation,
+				tex.Size() / 2f,
+				proj.scale,
+				SpriteEffects.None,
+				0
+			);
 		}
 
-		public static void DrawProjectileShadowsRotating(Projectile Proj, float dist, Color drawColor, float Speed = 0.2f)
+
+		public static void DrawProjectileShadowsStatic(Projectile proj, float dist)
 		{
-			float RotAmount = Speed * Proj.direction;
-			Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, (Proj.Center + new Vector2(0, dist)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, (Proj.Center + new Vector2(0, -dist)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, (Proj.Center + new Vector2(dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Projectile[Proj.type].Value, (Proj.Center + new Vector2(-dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, Proj.rotation, TextureAssets.Projectile[Proj.type].Value.Size() / 2, Proj.scale, SpriteEffects.None, 0);
+			DrawProjectileShadowsStatic(proj, dist, Color.White);
+		}
+
+		public static void DrawProjectileShadowsStatic(Projectile proj, float dist, Color drawColor)
+		{
+			DrawProjectileShadow(proj, new Vector2(0,  dist), drawColor);
+			DrawProjectileShadow(proj, new Vector2(0, -dist), drawColor);
+			DrawProjectileShadow(proj, new Vector2( dist, 0), drawColor);
+			DrawProjectileShadow(proj, new Vector2(-dist, 0), drawColor);
+		}
+
+		public static void DrawProjectileShadowsStatic(Projectile proj, Rectangle frame, float dist, Color drawColor)
+		{
+			DrawProjectileShadow(proj, frame, new Vector2(0,  dist), drawColor);
+			DrawProjectileShadow(proj, frame, new Vector2(0, -dist), drawColor);
+			DrawProjectileShadow(proj, frame, new Vector2( dist, 0), drawColor);
+			DrawProjectileShadow(proj, frame, new Vector2(-dist, 0), drawColor);
+		}
+
+		public static void DrawProjectileShadowsRotating(Projectile proj, float dist, Color drawColor, float speed = 0.2f)
+		{
+			float rot = speed * proj.direction;
+
+			DrawProjectileShadow(proj, new Vector2(0,  dist), drawColor, rot);
+			DrawProjectileShadow(proj, new Vector2(0, -dist), drawColor, rot);
+			DrawProjectileShadow(proj, new Vector2( dist, 0), drawColor, rot);
+			DrawProjectileShadow(proj, new Vector2(-dist, 0), drawColor, rot);
+		}
+
+		public static void DrawItemShadow(Item item, Vector2 offset, Color color, float rotationOffset = 0f)
+		{
+			Texture2D tex = TextureAssets.Item[item.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				item.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				null,
+				color * 0.5f,
+				0f,
+				tex.Size() / 2f,
+				item.scale,
+				SpriteEffects.None,
+				0
+			);
 		}
 
 		public static void DrawItemShadowsStatic(Item item, float dist)
 		{
-			SpriteBatch sb = Main.spriteBatch;
-			sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(0, dist) - Main.screenPosition, null, Color.White * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(0, -dist) - Main.screenPosition, null, Color.White * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(dist, 0) - Main.screenPosition, null, Color.White * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(-dist, 0) - Main.screenPosition, null, Color.White * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
+			DrawItemShadowsStatic(item, dist, Color.White);
 		}
 
 		public static void DrawItemShadowsStatic(Item item, float dist, Color drawColor)
 		{
-			SpriteBatch sb = Main.spriteBatch;
-			sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(0, dist) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(0, -dist) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(dist, 0) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, item.Center + new Vector2(-dist, 0) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
+			DrawItemShadow(item, new Vector2(0,  dist), drawColor);
+			DrawItemShadow(item, new Vector2(0, -dist), drawColor);
+			DrawItemShadow(item, new Vector2( dist, 0), drawColor);
+			DrawItemShadow(item, new Vector2(-dist, 0), drawColor);
 		}
 
-		public static void DrawItemShadowsRotating(Item item, float dist, Color drawColor, float Speed = 0.2f)
+		public static void DrawItemShadowsRotating(Item item, float dist, Color drawColor, float speed = 0.2f)
 		{
-			SpriteBatch sb = Main.spriteBatch;
-			float RotAmount = Speed * item.direction;
-			sb.Draw(TextureAssets.Item[item.type].Value, (item.Center + new Vector2(0, dist)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, (item.Center + new Vector2(0, -dist)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, (item.Center + new Vector2(dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
-            sb.Draw(TextureAssets.Item[item.type].Value, (item.Center + new Vector2(-dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, 0f, TextureAssets.Item[item.type].Value.Size() / 2, item.scale, SpriteEffects.None, 0);
+			float rot = speed * item.direction;
+
+			DrawItemShadow(item, new Vector2(0,  dist), drawColor, rot);
+			DrawItemShadow(item, new Vector2(0, -dist), drawColor, rot);
+			DrawItemShadow(item, new Vector2( dist, 0), drawColor, rot);
+			DrawItemShadow(item, new Vector2(-dist, 0), drawColor, rot);
+		}
+
+		public static void DrawNPCShadow(NPC npc, Vector2 offset, Color color, float rotationOffset = 0f)
+		{
+			Texture2D tex = TextureAssets.Npc[npc.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				npc.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				null,
+				color * 0.5f,
+				npc.rotation,
+				tex.Size() / 2f,
+				npc.scale,
+				SpriteEffects.None,
+				0
+			);
 		}
 		
 		public static void DrawNPCShadowsStatic(NPC npc, float dist)
 		{
-			Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(0, dist) - Main.screenPosition, null, Color.White * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(0, -dist) - Main.screenPosition, null, Color.White * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(dist, 0) - Main.screenPosition, null, Color.White * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(-dist, 0) - Main.screenPosition, null, Color.White * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			DrawNPCShadowsStatic(npc, dist, Color.White);
 		}
 
 		public static void DrawNPCShadowsStatic(NPC npc, float dist, Color drawColor)
 		{
-			Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(0, dist) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(0, -dist) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(dist, 0) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center + new Vector2(-dist, 0) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			DrawNPCShadow(npc, new Vector2(0,  dist), drawColor);
+			DrawNPCShadow(npc, new Vector2(0, -dist), drawColor);
+			DrawNPCShadow(npc, new Vector2( dist, 0), drawColor);
+			DrawNPCShadow(npc, new Vector2(-dist, 0), drawColor);
 		}
 
-		public static void DrawNPCShadowsRotating(NPC npc, float dist, Color drawColor, float Speed = 0.2f)
+		public static void DrawNPCShadowsRotating(NPC npc, float dist, Color drawColor, float speed = 0.2f)
 		{
-			float RotAmount = Speed * npc.direction;
-			Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, (npc.Center + new Vector2(0, dist)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, (npc.Center + new Vector2(0, -dist)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, (npc.Center + new Vector2(dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, (npc.Center + new Vector2(-dist, 0)).RotatedBy(RotAmount) - Main.screenPosition, null, drawColor * 0.5f, npc.rotation, TextureAssets.Npc[npc.type].Value.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			float rot = speed * npc.direction;
+
+			DrawNPCShadow(npc, new Vector2(0,  dist), drawColor, rot);
+			DrawNPCShadow(npc, new Vector2(0, -dist), drawColor, rot);
+			DrawNPCShadow(npc, new Vector2( dist, 0), drawColor, rot);
+			DrawNPCShadow(npc, new Vector2(-dist, 0), drawColor, rot);
 		}
 
 		public static void RectDustRandom(int ID, Rectangle Rect, Color color, float scale, int amount = 10)
@@ -1303,6 +1371,17 @@ namespace OpusLib
 			}
 		}
 
+	}
+
+	public static class OpusExtensions
+	{
+		/// <summary>
+		/// Rotates this vector around a local origin point.
+		/// </summary>
+		public static Vector2 LocalRotatedBy(this Vector2 position, Vector2 origin, float radians)
+		{
+			return origin + (position - origin).RotatedBy(radians);
+		}
 	}
 	
 	public class OpusEnterWorldPlayer : ModPlayer
