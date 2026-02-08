@@ -154,6 +154,7 @@ namespace OpusLib.Content.Helpers
         public bool Collision(float Width, int Type)
         {
             float halfWidth = Width / 2f;
+            float ColPT = 0f;
 
             if (Type < 1 || Type > 3)
             {
@@ -165,12 +166,14 @@ namespace OpusLib.Content.Helpers
                 if (!npc.active) continue;
                 
                 Rectangle hitbox = npc.Hitbox;
-                Vector2 lineDir = (End - Start).SafeNormalize(Vector2.Zero);
-                Vector2 closestPoint = ClosestPointOnLineSegment(new Vector2(hitbox.Center.X, hitbox.Center.Y), Start, End);
-                
-                float distanceToLine = Vector2.Distance(new Vector2(hitbox.Center.X, hitbox.Center.Y), closestPoint);
-                
-                if (distanceToLine <= halfWidth + hitbox.Width / 2f && Type == 1)
+                if (Terraria.Collision.CheckAABBvLineCollision(
+                    hitbox.TopLeft(),
+                    hitbox.Size(),
+                    Start,
+                    End,
+                    Width,
+                    ref ColPT
+                ))
                 {
                     return true;
                 }
@@ -181,12 +184,14 @@ namespace OpusLib.Content.Helpers
                 if (!plr.active) continue;
                 
                 Rectangle hitbox = plr.Hitbox;
-                Vector2 lineDir = (End - Start).SafeNormalize(Vector2.Zero);
-                Vector2 closestPoint = ClosestPointOnLineSegment(new Vector2(hitbox.Center.X, hitbox.Center.Y), Start, End);
-                
-                float distanceToLine = Vector2.Distance(new Vector2(hitbox.Center.X, hitbox.Center.Y), closestPoint);
-                
-                if (distanceToLine <= halfWidth + hitbox.Width / 2f && Type == 2)
+                if (Terraria.Collision.CheckAABBvLineCollision(
+                    hitbox.TopLeft(),
+                    hitbox.Size(),
+                    Start,
+                    End,
+                    Width,
+                    ref ColPT
+                ))
                 {
                     return true;
                 }
@@ -197,26 +202,20 @@ namespace OpusLib.Content.Helpers
                 if (!proj.active) continue;
                 
                 Rectangle hitbox = proj.Hitbox;
-                Vector2 lineDir = (End - Start).SafeNormalize(Vector2.Zero);
-                Vector2 closestPoint = ClosestPointOnLineSegment(new Vector2(hitbox.Center.X, hitbox.Center.Y), Start, End);
-                
-                float distanceToLine = Vector2.Distance(new Vector2(hitbox.Center.X, hitbox.Center.Y), closestPoint);
-                
-                if (distanceToLine <= halfWidth + hitbox.Width / 2f && Type == 3)
+                if (Terraria.Collision.CheckAABBvLineCollision(
+                    hitbox.TopLeft(),
+                    hitbox.Size(),
+                    Start,
+                    End,
+                    Width,
+                    ref ColPT
+                ))
                 {
                     return true;
                 }
             }
             
             return false;
-        }
-        
-        private static Vector2 ClosestPointOnLineSegment(Vector2 point, Vector2 lineStart, Vector2 lineEnd)
-        {
-            Vector2 lineVec = lineEnd - lineStart;
-            float lineLen = lineVec.Length();
-            float t = Math.Max(0, Math.Min(1, Vector2.Dot(point - lineStart, lineVec) / (lineLen * lineLen)));
-            return lineStart + lineVec * t;
         }
     }
 }
