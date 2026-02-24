@@ -1159,6 +1159,23 @@ namespace OpusLib
 			);
 		}
 
+		public static void DrawProjectileShadow(Projectile proj, Vector2 offset, Color color, float rotationOffset = 0f, float Opacity = 0.5f)
+		{
+			Texture2D tex = TextureAssets.Projectile[proj.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				proj.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				null,
+				color * Opacity,
+				proj.rotation,
+				tex.Size() / 2f,
+				proj.scale,
+				SpriteEffects.None,
+				0
+			);
+		}
+
 		public static void DrawProjectileShadow(Projectile proj, Rectangle frame, Vector2 offset, Color color, float rotationOffset = 0f)
 		{
 			Texture2D tex = TextureAssets.Projectile[proj.type].Value;
@@ -1176,6 +1193,25 @@ namespace OpusLib
 			);
 		}
 
+		
+
+		public static void DrawProjectileShadow(Projectile proj, Rectangle frame, Vector2 offset, Color color, float rotationOffset = 0f, float Opacity = 0.5f)
+		{
+			Texture2D tex = TextureAssets.Projectile[proj.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				proj.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				frame,
+				color * Opacity,
+				proj.rotation,
+				tex.Size() / 2f,
+				proj.scale,
+				SpriteEffects.None,
+				0
+			);
+		}
+
 
 		public static void DrawProjectileShadowsStatic(Projectile proj, float dist)
 		{
@@ -1184,18 +1220,34 @@ namespace OpusLib
 
 		public static void DrawProjectileShadowsStatic(Projectile proj, float dist, Color drawColor)
 		{
-			DrawProjectileShadow(proj, new Vector2(0,  dist), drawColor);
-			DrawProjectileShadow(proj, new Vector2(0, -dist), drawColor);
-			DrawProjectileShadow(proj, new Vector2( dist, 0), drawColor);
-			DrawProjectileShadow(proj, new Vector2(-dist, 0), drawColor);
+			DrawProjectileShadow(proj, new Vector2(0,  dist), drawColor, rotationOffset: 0);
+			DrawProjectileShadow(proj, new Vector2(0, -dist), drawColor, rotationOffset: 0);
+			DrawProjectileShadow(proj, new Vector2( dist, 0), drawColor, rotationOffset: 0);
+			DrawProjectileShadow(proj, new Vector2(-dist, 0), drawColor, rotationOffset: 0);
+		}
+
+		public static void DrawProjectileShadowsStatic(Projectile proj, float dist, Color drawColor, float Opacity = 0.5f)
+		{
+			DrawProjectileShadow(proj, new Vector2(0,  dist), drawColor, Opacity: Opacity);
+			DrawProjectileShadow(proj, new Vector2(0, -dist), drawColor, Opacity: Opacity);
+			DrawProjectileShadow(proj, new Vector2( dist, 0), drawColor, Opacity: Opacity);
+			DrawProjectileShadow(proj, new Vector2(-dist, 0), drawColor, Opacity: Opacity);
 		}
 
 		public static void DrawProjectileShadowsStatic(Projectile proj, Rectangle frame, float dist, Color drawColor)
 		{
-			DrawProjectileShadow(proj, frame, new Vector2(0,  dist), drawColor);
-			DrawProjectileShadow(proj, frame, new Vector2(0, -dist), drawColor);
-			DrawProjectileShadow(proj, frame, new Vector2( dist, 0), drawColor);
-			DrawProjectileShadow(proj, frame, new Vector2(-dist, 0), drawColor);
+			DrawProjectileShadow(proj, frame, new Vector2(0,  dist), drawColor, rotationOffset: 0);
+			DrawProjectileShadow(proj, frame, new Vector2(0, -dist), drawColor, rotationOffset: 0);
+			DrawProjectileShadow(proj, frame, new Vector2( dist, 0), drawColor, rotationOffset: 0);
+			DrawProjectileShadow(proj, frame, new Vector2(-dist, 0), drawColor, rotationOffset: 0);
+		}
+
+		public static void DrawProjectileShadowsStatic(Projectile proj, Rectangle frame, float dist, Color drawColor, float Opacity = 0.5f)
+		{
+			DrawProjectileShadow(proj, frame, new Vector2(0,  dist), drawColor, Opacity: Opacity);
+			DrawProjectileShadow(proj, frame, new Vector2(0, -dist), drawColor, Opacity: Opacity);
+			DrawProjectileShadow(proj, frame, new Vector2( dist, 0), drawColor, Opacity: Opacity);
+			DrawProjectileShadow(proj, frame, new Vector2(-dist, 0), drawColor, Opacity: Opacity);
 		}
 
 		public static void DrawProjectileShadowsRotating(Projectile proj, float dist, Color drawColor, float speed = 0.2f)
@@ -1208,7 +1260,34 @@ namespace OpusLib
 			DrawProjectileShadow(proj, new Vector2(-dist, 0), drawColor, rot);
 		}
 
+		public static void DrawProjectileShadowsRotating(Projectile proj, float dist, Color drawColor, float speed = 0.2f, float Opacity = 0.5f)
+		{
+			float rot = speed * proj.direction;
+
+			DrawProjectileShadow(proj, new Vector2(0,  dist), drawColor, rot, Opacity);
+			DrawProjectileShadow(proj, new Vector2(0, -dist), drawColor, rot, Opacity);
+			DrawProjectileShadow(proj, new Vector2( dist, 0), drawColor, rot, Opacity);
+			DrawProjectileShadow(proj, new Vector2(-dist, 0), drawColor, rot, Opacity);
+		}
+
 		public static void DrawItemShadow(Item item, Vector2 offset, Color color, float rotationOffset = 0f)
+		{
+			Texture2D tex = TextureAssets.Item[item.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				item.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				null,
+				color * 0.5f,
+				0f,
+				tex.Size() / 2f,
+				item.scale,
+				SpriteEffects.None,
+				0
+			);
+		}
+
+		public static void DrawItemShadow(Item item, Vector2 offset, Color color, float rotationOffset = 0f, float Opacity = 0.5f)
 		{
 			Texture2D tex = TextureAssets.Item[item.type].Value;
 
@@ -1232,10 +1311,18 @@ namespace OpusLib
 
 		public static void DrawItemShadowsStatic(Item item, float dist, Color drawColor)
 		{
-			DrawItemShadow(item, new Vector2(0,  dist), drawColor);
-			DrawItemShadow(item, new Vector2(0, -dist), drawColor);
-			DrawItemShadow(item, new Vector2( dist, 0), drawColor);
-			DrawItemShadow(item, new Vector2(-dist, 0), drawColor);
+			DrawItemShadow(item, new Vector2(0,  dist), drawColor, rotationOffset: 0);
+			DrawItemShadow(item, new Vector2(0, -dist), drawColor, rotationOffset: 0);
+			DrawItemShadow(item, new Vector2( dist, 0), drawColor, rotationOffset: 0);
+			DrawItemShadow(item, new Vector2(-dist, 0), drawColor, rotationOffset: 0);
+		}
+
+		public static void DrawItemShadowsStatic(Item item, float dist, Color drawColor, float Opacity = 0.5f)
+		{
+			DrawItemShadow(item, new Vector2(0,  dist), drawColor, Opacity: Opacity);
+			DrawItemShadow(item, new Vector2(0, -dist), drawColor, Opacity: Opacity);
+			DrawItemShadow(item, new Vector2( dist, 0), drawColor, Opacity: Opacity);
+			DrawItemShadow(item, new Vector2(-dist, 0), drawColor, Opacity: Opacity);
 		}
 
 		public static void DrawItemShadowsRotating(Item item, float dist, Color drawColor, float speed = 0.2f)
@@ -1248,9 +1335,21 @@ namespace OpusLib
 			DrawItemShadow(item, new Vector2(-dist, 0), drawColor, rot);
 		}
 
+		public static void DrawItemShadowsRotating(Item item, float dist, Color drawColor, float speed = 0.2f, float Opacity = 0.5f)
+		{
+			float rot = speed * item.direction;
+
+			DrawItemShadow(item, new Vector2(0,  dist), drawColor, rot, Opacity);
+			DrawItemShadow(item, new Vector2(0, -dist), drawColor, rot, Opacity);
+			DrawItemShadow(item, new Vector2( dist, 0), drawColor, rot, Opacity);
+			DrawItemShadow(item, new Vector2(-dist, 0), drawColor, rot, Opacity);
+		}
+
 		public static void DrawNPCShadow(NPC npc, Vector2 offset, Color color, float rotationOffset = 0f)
 		{
 			Texture2D tex = TextureAssets.Npc[npc.type].Value;
+
+			
 
 			Main.EntitySpriteDraw(
 				tex,
@@ -1264,18 +1363,108 @@ namespace OpusLib
 				0
 			);
 		}
+
+		public static void DrawNPCShadow(NPC npc, Vector2 offset, Color color, float rotationOffset = 0f, float Opacity = 0.5f)
+		{
+			Texture2D tex = TextureAssets.Npc[npc.type].Value;
+
+			Main.EntitySpriteDraw(
+				tex,
+				npc.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				null,
+				color * Opacity,
+				npc.rotation,
+				tex.Size() / 2f,
+				npc.scale,
+				SpriteEffects.None,
+				0
+			);
+		}
+
+		public static void DrawNPCShadow(NPC npc, Rectangle frame, Vector2 offset, Color color, float rotationOffset = 0f)
+		{
+			Texture2D tex = TextureAssets.Npc[npc.type].Value;
+
+			Rectangle? source = frame;
+			Vector2 origin = source.HasValue 
+				? source.Value.Size() / 2f 
+				: tex.Size() / 2f;
+
+			Main.EntitySpriteDraw(
+				tex,
+				npc.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				frame,
+				color * 0.5f,
+				npc.rotation,
+				origin,
+				npc.scale,
+				SpriteEffects.None,
+				0
+			);
+		}
+
+		public static void DrawNPCShadow(NPC npc, Rectangle frame, Vector2 offset, Color color, float rotationOffset = 0f, float Opacity = 0.5f)
+		{
+			Texture2D tex = TextureAssets.Npc[npc.type].Value;
+
+			Rectangle? source = frame;
+			Vector2 origin = source.HasValue 
+				? source.Value.Size() / 2f 
+				: tex.Size() / 2f;
+
+			Main.EntitySpriteDraw(
+				tex,
+				npc.Center + offset.RotatedBy(rotationOffset) - Main.screenPosition,
+				frame,
+				color * Opacity,
+				npc.rotation,
+				origin,
+				npc.scale,
+				SpriteEffects.None,
+				0
+			);
+		}
 		
 		public static void DrawNPCShadowsStatic(NPC npc, float dist)
 		{
 			DrawNPCShadowsStatic(npc, dist, Color.White);
 		}
 
+		public static void DrawNPCShadowsStatic(NPC npc, Rectangle frame, float dist)
+		{
+			DrawNPCShadowsStatic(npc, frame, dist, Color.White);
+		}
+
 		public static void DrawNPCShadowsStatic(NPC npc, float dist, Color drawColor)
 		{
-			DrawNPCShadow(npc, new Vector2(0,  dist), drawColor);
-			DrawNPCShadow(npc, new Vector2(0, -dist), drawColor);
-			DrawNPCShadow(npc, new Vector2( dist, 0), drawColor);
-			DrawNPCShadow(npc, new Vector2(-dist, 0), drawColor);
+			DrawNPCShadow(npc, new Vector2(0,  dist), drawColor, rotationOffset: 0);
+			DrawNPCShadow(npc, new Vector2(0, -dist), drawColor, rotationOffset: 0);
+			DrawNPCShadow(npc, new Vector2( dist, 0), drawColor, rotationOffset: 0);
+			DrawNPCShadow(npc, new Vector2(-dist, 0), drawColor, rotationOffset: 0);
+		}
+
+		public static void DrawNPCShadowsStatic(NPC npc, float dist, Color drawColor, float Opacity = 0.5f)
+		{
+			DrawNPCShadow(npc, new Vector2(0,  dist), drawColor, Opacity: Opacity);
+			DrawNPCShadow(npc, new Vector2(0, -dist), drawColor, Opacity: Opacity);
+			DrawNPCShadow(npc, new Vector2( dist, 0), drawColor, Opacity: Opacity);
+			DrawNPCShadow(npc, new Vector2(-dist, 0), drawColor, Opacity: Opacity);
+		}
+
+		public static void DrawNPCShadowsStatic(NPC npc, Rectangle frame, float dist, Color drawColor)
+		{
+			DrawNPCShadow(npc, frame, new Vector2(0,  dist), drawColor, rotationOffset: 0);
+			DrawNPCShadow(npc, frame, new Vector2(0, -dist), drawColor, rotationOffset: 0);
+			DrawNPCShadow(npc, frame, new Vector2( dist, 0), drawColor, rotationOffset: 0);
+			DrawNPCShadow(npc, frame, new Vector2(-dist, 0), drawColor, rotationOffset: 0);
+		}
+
+		public static void DrawNPCShadowsStatic(NPC npc, Rectangle frame, float dist, Color drawColor, float Opacity = 0.5f)
+		{
+			DrawNPCShadow(npc, frame, new Vector2(0,  dist), drawColor, Opacity: Opacity);
+			DrawNPCShadow(npc, frame, new Vector2(0, -dist), drawColor, Opacity: Opacity);
+			DrawNPCShadow(npc, frame, new Vector2( dist, 0), drawColor, Opacity: Opacity);
+			DrawNPCShadow(npc, frame, new Vector2(-dist, 0), drawColor, Opacity: Opacity);
 		}
 
 		public static void DrawNPCShadowsRotating(NPC npc, float dist, Color drawColor, float speed = 0.2f)
@@ -1286,6 +1475,36 @@ namespace OpusLib
 			DrawNPCShadow(npc, new Vector2(0, -dist), drawColor, rot);
 			DrawNPCShadow(npc, new Vector2( dist, 0), drawColor, rot);
 			DrawNPCShadow(npc, new Vector2(-dist, 0), drawColor, rot);
+		}
+
+		public static void DrawNPCShadowsRotating(NPC npc, float dist, Color drawColor, float speed = 0.2f, float Opacity = 0.5f)
+		{
+			float rot = speed * npc.direction;
+
+			DrawNPCShadow(npc, new Vector2(0,  dist), drawColor, rot, Opacity);
+			DrawNPCShadow(npc, new Vector2(0, -dist), drawColor, rot, Opacity);
+			DrawNPCShadow(npc, new Vector2( dist, 0), drawColor, rot, Opacity);
+			DrawNPCShadow(npc, new Vector2(-dist, 0), drawColor, rot, Opacity);
+		}
+
+		public static void DrawNPCShadowsRotating(NPC npc, Rectangle frame, float dist, Color drawColor, float speed = 0.2f)
+		{
+			float rot = speed * npc.direction;
+
+			DrawNPCShadow(npc, frame, new Vector2(0,  dist), drawColor, rot);
+			DrawNPCShadow(npc, frame, new Vector2(0, -dist), drawColor, rot);
+			DrawNPCShadow(npc, frame, new Vector2( dist, 0), drawColor, rot);
+			DrawNPCShadow(npc, frame, new Vector2(-dist, 0), drawColor, rot);
+		}
+
+		public static void DrawNPCShadowsRotating(NPC npc, Rectangle frame, float dist, Color drawColor, float speed = 0.2f, float Opacity = 0f)
+		{
+			float rot = speed * npc.direction;
+
+			DrawNPCShadow(npc, frame, new Vector2(0,  dist), drawColor, rot, Opacity);
+			DrawNPCShadow(npc, frame, new Vector2(0, -dist), drawColor, rot, Opacity);
+			DrawNPCShadow(npc, frame, new Vector2( dist, 0), drawColor, rot, Opacity);
+			DrawNPCShadow(npc, frame, new Vector2(-dist, 0), drawColor, rot, Opacity);
 		}
 
 		public static void RectDustRandom(int ID, Rectangle Rect, Color color, float scale, int amount = 10)
