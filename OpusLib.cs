@@ -1026,7 +1026,7 @@ namespace OpusLib
 		public static void StartSpriteBatchForTrails(SpriteBatch spriteBatch, BlendState blendState, SpriteSortMode ssm)
         {
 			spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 		}
 
         public static void ReturnToDefaultDrawing(SpriteBatch spriteBatch)
