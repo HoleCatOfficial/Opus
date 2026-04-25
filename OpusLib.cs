@@ -16,6 +16,7 @@ using Terraria.ModLoader.Config;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using Terraria.GameContent;
+using Terraria.DataStructures;
 
 namespace OpusLib
 {
@@ -176,104 +177,80 @@ namespace OpusLib
 		#region Projectile Utils
 
 		//Evenly Spaced, Starts at the Center. Moves out.
-		public static void RadialSpreadProjectile(int ID, int Amount, Vector2 CTR, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool RandomOffset = false)
+		public static Projectile[] RadialSpreadProjectile(int ID, int Amount, Vector2 CTR, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool RandomOffset = false)
         {
             float rotationStep = MathHelper.TwoPi / Amount;
             float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
 
+			Projectile[] A = new Projectile[Amount];
             for (int i = 0; i < Amount; i++)
             {
                 float angle = rotationStep * i + baseRotation;
                 Vector2 velocity = new Vector2(Speed, 0f).RotatedBy(angle);
 
-                Projectile.NewProjectile(
-                    Projectile.GetSource_None(),
-                    CTR,
-                    velocity,
-                    ID,
-                    Dmg,
-                    KB,
-                    ai0: AI0,
-                    ai1: AI1,
-                    ai2: AI2
-                );
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), CTR, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
             }
+
+			return A;
         }
 
-		public static void RadialSpreadProjectile(int ID, int Amount, Vector2 CTR, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, float offset = 0f)
+		public static Projectile[] RadialSpreadProjectile(int ID, int Amount, Vector2 CTR, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, float offset = 0f)
         {
             float rotationStep = MathHelper.TwoPi / Amount;
+
+            Projectile[] A = new Projectile[Amount];
 
             for (int i = 0; i < Amount; i++)
             {
                 float angle = rotationStep * i + offset;
                 Vector2 velocity = new Vector2(Speed, 0f).RotatedBy(angle);
 
-                Projectile.NewProjectile(
-                    Projectile.GetSource_None(),
-                    CTR,
-                    velocity,
-                    ID,
-                    Dmg,
-                    KB,
-                    ai0: AI0,
-                    ai1: AI1,
-                    ai2: AI2
-                );
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), CTR, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
             }
+
+			return A;
         }
 
 		//Randomly Spaced, Starts at the Center. Moves out.
-		public static void RadialProjectileRandomDir(int ID, int Amount, Vector2 CTR, int Dmg = 0, int KB = 0, float Speed = 2f, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool friendly = false, bool hostile = false)
+		public static Projectile[] RadialProjectileRandomDir(int ID, int Amount, Vector2 CTR, int Dmg = 0, int KB = 0, float Speed = 2f, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool friendly = false, bool hostile = false)
 		{
-			for (int i = 0; i < Amount; i++)
+            Projectile[] A = new Projectile[Amount];
+            for (int i = 0; i < Amount; i++)
 			{
 				Vector2 velocity = new Vector2(Speed, 0f).RotatedByRandom(MathHelper.TwoPi);
-				Projectile Pr = Projectile.NewProjectileDirect(
-					Projectile.GetSource_None(),
-					CTR,
-					velocity,
-					ID,
-					Dmg,
-					KB,
-					ai0: AI0,
-					ai1: AI1,
-					ai2: AI2
-				);
-				Pr.friendly = friendly;
-				Pr.hostile = hostile;
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), CTR, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
+				A[i].friendly = friendly;
+                A[i].hostile = hostile;
 			}
+
+			return A;
 		}
 		
 		//Evenly Spaced, but does not start at the center. Moves out.
-		public static void RingProjectileOutward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool RandomOffset = false)
+		public static Projectile[] RingProjectileOutward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool RandomOffset = false)
 		{
 			float rotationStep = MathHelper.TwoPi / Amount;
 			float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
 
-			for (int i = 0; i < Amount; i++)
+            Projectile[] A = new Projectile[Amount];
+
+            for (int i = 0; i < Amount; i++)
 			{
 				float angle = rotationStep * i + baseRotation;
 				Vector2 position = CTR + new Vector2(Radius, 0f).RotatedBy(angle);
 				Vector2 velocity = new Vector2(Speed, 0f).RotatedBy(angle);
 
-				Projectile.NewProjectile(
-					Projectile.GetSource_None(),
-					position,
-					velocity,
-					ID,
-					Dmg,
-					KB,
-					ai0: AI0,
-					ai1: AI1,
-					ai2: AI2
-				);
-			}
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), position, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
+            }
+
+			return A;
 		}
 
-		public static void RingProjectileOutward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, float offset = 0f)
+		public static Projectile[] RingProjectileOutward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, float offset = 0f)
 		{
 			float rotationStep = MathHelper.TwoPi / Amount;
+			
+			Projectile[] A = new Projectile[Amount];
 
 			for (int i = 0; i < Amount; i++)
 			{
@@ -281,27 +258,20 @@ namespace OpusLib
 				Vector2 position = CTR + new Vector2(Radius, 0f).RotatedBy(angle);
 				Vector2 velocity = new Vector2(Speed, 0f).RotatedBy(angle);
 
-				Projectile.NewProjectile(
-					Projectile.GetSource_None(),
-					position,
-					velocity,
-					ID,
-					Dmg,
-					KB,
-					ai0: AI0,
-					ai1: AI1,
-					ai2: AI2
-				);
-			}
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), position, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
+            }
+
+			return A;
 		}
 		
 		//Evenly Spaced, but does not start at the center. Moves in.
-		public static void RingProjectileInward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool RandomOffset = false)
+		public static Projectile[] RingProjectileInward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, bool RandomOffset = false)
 		{
 			float rotationStep = MathHelper.TwoPi / Amount;
 			float baseRotation = RandomOffset ? Main.rand.NextFloat(MathHelper.TwoPi) : 0f;
 
-			for (int i = 0; i < Amount; i++)
+			Projectile[] A = new Projectile[Amount];
+            for (int i = 0; i < Amount; i++)
 			{
 				float angle = rotationStep * i + baseRotation;
 				Vector2 position = CTR + new Vector2(Radius, 0f).RotatedBy(angle);
@@ -311,25 +281,18 @@ namespace OpusLib
 
 				Vector2 velocity = direction * Speed;
 
-				Projectile.NewProjectile(
-					Projectile.GetSource_None(),
-					position,
-					velocity,
-					ID,
-					Dmg,
-					KB,
-					ai0: AI0,
-					ai1: AI1,
-					ai2: AI2
-				);
-			}
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), position, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
+            }
+			return A;
 		}
 
-		public static void RingProjectileInward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, float offset = 0f)
+		public static Projectile[] RingProjectileInward(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0, float offset = 0f)
 		{
 			float rotationStep = MathHelper.TwoPi / Amount;
 
-			for (int i = 0; i < Amount; i++)
+			Projectile[] A = new Projectile[Amount];
+
+            for (int i = 0; i < Amount; i++)
 			{
 				float angle = rotationStep * i + offset;
 				Vector2 position = CTR + new Vector2(Radius, 0f).RotatedBy(angle);
@@ -339,55 +302,43 @@ namespace OpusLib
 
 				Vector2 velocity = direction * Speed;
 
-				Projectile.NewProjectile(
-					Projectile.GetSource_None(),
-					position,
-					velocity,
-					ID,
-					Dmg,
-					KB,
-					ai0: AI0,
-					ai1: AI1,
-					ai2: AI2
-				);
-			}
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), position, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
+            }
+
+			return A;
 		}
 
 		//Randomly Spaced, but does not start at the center. Moves out.
-		public static void RingProjectileOutwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2f, float AI0 = 0f, float AI1 = 0f, float AI2 = 0f)
+		public static Projectile[] RingProjectileOutwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2f, float AI0 = 0f, float AI1 = 0f, float AI2 = 0f)
 		{
-			for (int i = 0; i < Amount; i++)
+            Projectile[] A = new Projectile[Amount];
+            for (int i = 0; i < Amount; i++)
 			{
 				Vector2 spawnPos = CTR + Main.rand.NextVector2CircularEdge(Radius, Radius);
 
 				Vector2 direction = Vector2.Normalize(spawnPos - CTR);
 				Vector2 velocity = direction * Speed;
 
-				Projectile.NewProjectile(Entity.GetSource_None(), spawnPos, velocity, ID, Dmg, KB, -1, AI0, AI1, AI2);
+                A[i] = Projectile.NewProjectileDirect(Entity.GetSource_None(), spawnPos, velocity, ID, Dmg, KB, -1, AI0, AI1, AI2);
 			}
+			return A;
 		}
 
 		//Randomly Spaced, but does not start at the center. Moves in.
-		public static void RingProjectileInwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0)
+		public static Projectile[] RingProjectileInwardRandomDir(int ID, int Amount, Vector2 CTR, float Radius, int Dmg = 0, int KB = 0, float Speed = 2, float AI0 = 0, float AI1 = 0, float AI2 = 0)
 		{
-			for (int i = 0; i < Amount; i++)
+            Projectile[] A = new Projectile[Amount];
+
+            for (int i = 0; i < Amount; i++)
 			{
 				Vector2 position = CTR + Main.rand.NextVector2CircularEdge(Radius, Radius);
 				Vector2 velocity = (CTR - position) * Speed;
 
-				Projectile.NewProjectile(
-					Projectile.GetSource_None(),
-					position,
-					velocity,
-					ID,
-					Dmg,
-					KB,
-					ai0: AI0,
-					ai1: AI1,
-					ai2: AI2
-				);
+                A[i] = Projectile.NewProjectileDirect(Projectile.GetSource_None(), position, velocity, ID, Dmg, KB, ai0: AI0, ai1: AI1, ai2: AI2);
 			}
-		}
+
+            return A;
+        }
 
 		#endregion
 
