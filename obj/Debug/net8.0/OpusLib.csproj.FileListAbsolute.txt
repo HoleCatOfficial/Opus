@@ -1,7 +1,6 @@
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\bin\Debug\net8.0\OpusLib.deps.json
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\bin\Debug\net8.0\OpusLib.dll
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\bin\Debug\net8.0\OpusLib.pdb
-C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\bin\Debug\net8.0\InnoVault_v1.9.26.dll
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\obj\Debug\net8.0\OpusLib.csproj.AssemblyReference.cache
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\obj\Debug\net8.0\OpusLib.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\obj\Debug\net8.0\OpusLib.AssemblyInfoInputs.cache
@@ -13,3 +12,5 @@ C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\obj\Deb
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\obj\Debug\net8.0\refint\OpusLib.dll
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\obj\Debug\net8.0\OpusLib.pdb
 C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\obj\Debug\net8.0\ref\OpusLib.dll
+C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\bin\Debug\net8.0\BreadLibrary.dll
+C:\Users\Franc\Documents\My Games\Terraria\tModLoader\ModSources\OpusLib\bin\Debug\net8.0\InnoVault.dll
