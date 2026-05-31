@@ -171,20 +171,19 @@ namespace OpusLib.Content.Particles
         {   
             if (fireDrawMode == FireDrawMode.Additive)
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Deferred);
+                Opus.StartSpriteBatchWithBlending(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Deferred);
                 spritebatch.Draw(GetTextureProperties().Item1, position - Main.screenPosition, GetTextureProperties().Item2, col with { A = 0 } * Opacity, rotation, GetTextureProperties().Item3, scale, SpriteEffects.None, 0f);
                 Opus.ReturnToDefaultDrawing(spritebatch);
             }
             else
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, GetBlendState(fireDrawMode), SpriteSortMode.Deferred);
+                Opus.StartSpriteBatchWithBlending(spritebatch, GetBlendState(fireDrawMode), SpriteSortMode.Deferred);
                 spritebatch.Draw(GetTextureProperties().Item1, position - Main.screenPosition, GetTextureProperties().Item2, col * Opacity, rotation, GetTextureProperties().Item3, scale, SpriteEffects.None, 0f);
                 Opus.ReturnToDefaultDrawing(spritebatch);
             }
         }
 
-        public override PixelLayer PixelLayer => this.layer;
-        public override bool DrawsPixelated => true;
+        public override PixelLayer DefaultPixelLayer => this.layer;
     }
 
     public class LerpingFire : BaseParticle<LerpingFire>
@@ -389,20 +388,19 @@ namespace OpusLib.Content.Particles
         {
             if (fireDrawMode == FireDrawMode.Additive)
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Deferred);
+                Opus.StartSpriteBatchWithBlending(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Deferred);
                 spritebatch.Draw(GetTextureProperties().Item1, position - Main.screenPosition, GetTextureProperties().Item2, col with { A = 0 } * Opacity, rotation, GetTextureProperties().Item3, scale, SpriteEffects.None, 0f);
                 Opus.ReturnToDefaultDrawing(spritebatch);
             }
             else
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, GetBlendState(fireDrawMode), SpriteSortMode.Deferred);
+                Opus.StartSpriteBatchWithBlending(spritebatch, GetBlendState(fireDrawMode), SpriteSortMode.Deferred);
                 spritebatch.Draw(GetTextureProperties().Item1, position - Main.screenPosition, GetTextureProperties().Item2, col * Opacity, rotation, GetTextureProperties().Item3, scale, SpriteEffects.None, 0f);
                 Opus.ReturnToDefaultDrawing(spritebatch);
             }
         }
 
-        public override PixelLayer PixelLayer => this.layer;
+        public override PixelLayer DefaultPixelLayer => this.layer;
 
-        public override bool DrawsPixelated => true;
     }
 }

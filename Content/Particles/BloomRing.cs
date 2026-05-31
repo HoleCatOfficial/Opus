@@ -22,6 +22,7 @@ namespace OpusLib.Content.Particles
         public Color color;
         public BlendState blendState = BlendState.Additive;
         public float Opacity = 1.0f;
+        public PixelLayer Layer = PixelLayer.AbovePlayer;
 
         public float scale = 0f;
         public float endScale = 1f;
@@ -59,7 +60,7 @@ namespace OpusLib.Content.Particles
 
         public override void Update(ref ParticleRendererSettings settings)
         {
-            float Progress = scale / endScale;
+            float Progress = (float)scale / endScale;
             position += velocity;
 
             Opacity = 1f - MathHelper.Clamp((Progress - 0.5f) / 0.5f, 0f, 1f);
@@ -81,9 +82,7 @@ namespace OpusLib.Content.Particles
 
         //Drawing
 
-        public override PixelLayer PixelLayer => PixelLayer.AbovePlayer;
-
-        public override bool DrawsPixelated => true;
+        public override PixelLayer DefaultPixelLayer => Layer;
 
         public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
         {
@@ -103,11 +102,11 @@ namespace OpusLib.Content.Particles
 
             if (blendState != BlendState.Additive)
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, blendState, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending(spritebatch, blendState, SpriteSortMode.Immediate);
             }
             else
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
             }
 
             spritebatch.Draw(Tex, position - Main.screenPosition, null, c(), 0f, Tex.Size() / 2f, scale, SpriteEffects.None, 0f);
@@ -123,6 +122,7 @@ namespace OpusLib.Content.Particles
         Color color;
         BlendState blendState = BlendState.Additive;
         public float Opacity = 1.0f;
+        public PixelLayer Layer = PixelLayer.AbovePlayer;
 
         public Color StartColor;
         public Color EndColor;
@@ -196,7 +196,8 @@ namespace OpusLib.Content.Particles
 
         public override void Update(ref ParticleRendererSettings settings)
         {
-            float Progress = scale / endScale;
+            float Progress = (float)scale / endScale;
+
             position += velocity;
 
             Opacity = 1f - MathHelper.Clamp((Progress - 0.5f) / 0.5f, 0f, 1f);
@@ -227,9 +228,7 @@ namespace OpusLib.Content.Particles
 
         //Drawing
 
-        public override PixelLayer PixelLayer => PixelLayer.AbovePlayer;
-
-        public override bool DrawsPixelated => true;
+        public override PixelLayer DefaultPixelLayer => Layer;
 
         public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
         {
@@ -249,11 +248,11 @@ namespace OpusLib.Content.Particles
 
             if (blendState != BlendState.Additive)
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, blendState, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending(spritebatch, blendState, SpriteSortMode.Immediate);
             }
             else
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
             }
 
             spritebatch.Draw(Tex, position - Main.screenPosition, null, c(), 0f, Tex.Size() / 2f, scale, SpriteEffects.None, 0f);
@@ -269,6 +268,7 @@ namespace OpusLib.Content.Particles
         public Color color;
         BlendState blendState = BlendState.Additive;
         public float Opacity = 1.0f;
+        public PixelLayer Layer = PixelLayer.AbovePlayer;
 
         public float scale = 0f;
         public float endScale = 1f;
@@ -327,9 +327,7 @@ namespace OpusLib.Content.Particles
 
         //Drawing
 
-        public override PixelLayer PixelLayer => PixelLayer.AbovePlayer;
-
-        public override bool DrawsPixelated => true;
+        public override PixelLayer DefaultPixelLayer => Layer;
 
         public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
         {
@@ -339,30 +337,21 @@ namespace OpusLib.Content.Particles
             {
                 if (blendState == BlendState.Additive)
                 {
-                    return new Color(
-                        (int)(color.R * Opacity),
-                        (int)(color.G * Opacity),
-                        (int)(color.B * Opacity),
-                        color.A * Opacity
-                    ); 
+                    return color with { A = 0 } * Opacity;
                 }
                 else
                 {
-                    return new Color(
-                        (int)(color.R * Opacity),
-                        (int)(color.G * Opacity),
-                        (int)(color.B * Opacity)
-                    );
+                    return color * Opacity;
                 }
             }
 
             if (blendState != BlendState.Additive)
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, blendState, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending(spritebatch, blendState, SpriteSortMode.Immediate);
             }
             else
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
             }
 
             spritebatch.Draw(Tex, position - Main.screenPosition, null, c(), 0f, Tex.Size() / 2f, scale, SpriteEffects.None, 0f);
@@ -378,6 +367,7 @@ namespace OpusLib.Content.Particles
         Color color;
         BlendState blendState = BlendState.Additive;
         public float Opacity = 1.0f;
+        public PixelLayer Layer = PixelLayer.AbovePlayer;
 
         public Color StartColor;
         public Color EndColor;
@@ -483,9 +473,7 @@ namespace OpusLib.Content.Particles
 
         //Drawing
 
-        public override PixelLayer PixelLayer => PixelLayer.AbovePlayer;
-
-        public override bool DrawsPixelated => true;
+        public override PixelLayer DefaultPixelLayer => Layer;
 
         public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
         {
@@ -505,11 +493,11 @@ namespace OpusLib.Content.Particles
 
             if (blendState != BlendState.Additive)
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, blendState, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending(spritebatch, blendState, SpriteSortMode.Immediate);
             }
             else
             {
-                Opus.StartSpriteBatchPixelated(spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
+                Opus.StartSpriteBatchWithBlending (spritebatch, BlendState.AlphaBlend, SpriteSortMode.Immediate);
             }
 
             spritebatch.Draw(Tex, position - Main.screenPosition, null, c(), 0f, Tex.Size() / 2f, scale, SpriteEffects.None, 0f);

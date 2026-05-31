@@ -177,14 +177,14 @@ namespace OpusLib
 
         #region Radial Utilities
 
-        public static Vector2[] RadialVectorOutward(int Amount, Vector2 Center, float Magnitude, float Rotation)
+        public static Vector2[] RadialVectorOutward(int Amount, Vector2 Center, float Magnitude, float Rotation, float offset = 0f)
         {
             Vector2[] Output = new Vector2[Amount];
             float rotationStep = MathHelper.TwoPi / Amount;
 
             for (int i = 0; i < Amount; i++)
             {
-                float angle = rotationStep * i + Rotation;
+                float angle = rotationStep * i + Rotation + offset;
                 Output[i] = new Vector2(Magnitude, 0f).RotatedBy(angle);
             }
             return Output;
@@ -209,18 +209,18 @@ namespace OpusLib
         /// <param name="CTR"></param>
         /// <param name="Radius"></param>
         /// <param name="Magnitude"></param>
-        public static Tuple<Vector2[], Vector2[]> RingRadialVector(int Amount, Vector2 Center, float Radius, float Magnitude)
+        public static Tuple<Vector2[], Vector2[]> RingRadialVector(int Amount, Vector2 Center, float Radius, float Magnitude, float offset = 0f)
         {
             Vector2[] OutputVectors = new Vector2[Amount];
             Vector2[] OutputStartPoints = new Vector2[Amount];
 
-            OutputStartPoints = GetEquidistantVectors(Amount, Center, Radius);
+            OutputStartPoints = GetEquidistantVectors(Amount, Center, Radius, offset);
 
             float rotationStep = MathHelper.TwoPi / Amount;
 
             for (int i = 0; i < Amount; i++)
             {
-                float angle = rotationStep * i;
+                float angle = (rotationStep * i) + offset;
                 OutputVectors[i] = new Vector2(Magnitude, 0f).RotatedBy(angle);
             }
 
@@ -256,8 +256,9 @@ namespace OpusLib
 
             for (int i = 0; i < Amount; i++)
             {
-
-                OutputVectors[i] = OutputStartPoints[i] - Center;
+				Vector2 V = OutputStartPoints[i] - Center;
+				V.Normalize();
+                OutputVectors[i] = V * Magnitude;
             }
 
             return new Tuple<Vector2[], Vector2[]>(OutputVectors, OutputStartPoints);
@@ -384,12 +385,6 @@ namespace OpusLib
 			return outputDust;
         }
 
-		[Obsolete("The wording was standardized. Use RadialSpreadDustRandom instead. The functionality is the same.")]
-		public static Dust[] RadialDustRandomDir(int ID, int Amount, Vector2 Center, int Alpha, Color CLR, float Scale = 1f, float Speed = 2f)
-		{
-			return RadialSpreadDustRandom(ID, Amount, Center, Alpha, CLR, Scale, Speed);
-        }
-
 		public static Dust[] RadialSpreadDustRandom(int ID, int Amount, Vector2 Center, int Alpha, Color CLR, float Scale = 1f, float Speed = 2f)
         {
             Dust[] outputDust = new Dust[Amount];
@@ -401,12 +396,6 @@ namespace OpusLib
             }
 
             return outputDust;
-        }
-
-		[Obsolete("The wording was standardized. Use RingSpreadDust instead. The functionality is the same.")]
-		public static Dust[] RingDustOutward(int ID, int Amount, Vector2 Center, float Radius, int Alpha, Color CLR, float Scale = 1f, float Speed = 2, float offset = 0f)
-		{
-			return RingSpreadDust(ID, Amount, Center, Radius, Alpha, CLR, Scale, Speed, offset);
         }
 
 		public static Dust[] RingSpreadDust(int ID, int Amount, Vector2 Center, float Radius, int Alpha, Color CLR, float Scale = 1f, float Speed = 2, float offset = 0f)
@@ -423,12 +412,6 @@ namespace OpusLib
                 outputDust[i] = Dust.NewDustPerfect(position, ID, velocity, Alpha, CLR, Scale);
             }
             return outputDust;
-        }
-
-		[Obsolete("The wording was standardized. Use RingSpreadDustRandom instead. The functionality is the same.")]
-        public static Dust[] RingDustOutwardRandomDir(int ID, int Amount, Vector2 Center, float Radius, int Alpha, Color CLR, float Speed = 2, float Scale = 1f)
-		{
-			return RingSpreadDustRandom(ID, Amount, Center, Radius, Alpha, CLR, Scale, Speed);
         }
 
 		public static Dust[] RingSpreadDustRandom(int ID, int Amount, Vector2 Center, float Radius, int Alpha, Color CLR, float Speed = 2, float Scale = 1f)
@@ -496,14 +479,14 @@ namespace OpusLib
         /// <param name="rotationSpeed"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public static Vector2[] GetEquidistantVectors(int numVectors, Vector2 center, float radius)
+        public static Vector2[] GetEquidistantVectors(int numVectors, Vector2 center, float radius, float Offset = 0f)
 		{
 			Vector2[] vectors = new Vector2[numVectors];
 			float angleStep = MathHelper.TwoPi / numVectors;
 
 			for (int i = 0; i < numVectors; i++)
 			{
-				float angle = angleStep * i;
+				float angle = (angleStep * i) + Offset;
 				vectors[i] = center + new Vector2(radius, 0f).RotatedBy(angle);
 			}
 
@@ -558,111 +541,6 @@ namespace OpusLib
 			}
 
 			return results;
-		}
-
-		public static void SetEquidistantProjectilesWithRotation(Projectile[] projectiles, Vector2 center, float rotationSpeed, float radius, bool alignToTangent, out Vector2[] centers, out float[] rotations)
-		{
-			int n = projectiles.Length;
-			centers = new Vector2[n];
-			rotations = new float[n];
-
-			if (n == 0)
-				return;
-
-			float angleStep = MathHelper.TwoPi / n;
-			float baseRotation = Main.GameUpdateCount * rotationSpeed;
-
-			for (int i = 0; i < n; i++)
-			{
-				float angle = baseRotation + angleStep * i;
-				rotations[i] = angle;
-
-				// compute the center position for this index
-				Vector2 c = center + new Vector2(radius, 0f).RotatedBy(angle);
-				centers[i] = c;
-
-				// assign to entity if present
-				if (projectiles[i] != null)
-				{
-					// position is top-left, so subtract half-size to place center correctly
-					projectiles[i].position = c - new Vector2(projectiles[i].width / 2f, projectiles[i].height / 2f);
-
-					// choose how to orient the entity:
-					// - radial: rotation == angle (points away from circle center along radial)
-					// - tangent: rotation == angle + 90deg (points along orbit direction)
-					projectiles[i].rotation = alignToTangent ? angle + MathHelper.PiOver2 : angle;
-				}
-			}
-		}
-
-		public static void SetEquidistantNPCsWithRotation(NPC[] NPCs, Vector2 center, float rotationSpeed, float radius, bool alignToTangent, out Vector2[] centers, out float[] rotations)
-		{
-			int n = NPCs.Length;
-			centers = new Vector2[n];
-			rotations = new float[n];
-
-			if (n == 0)
-				return;
-
-			float angleStep = MathHelper.TwoPi / n;
-			float baseRotation = Main.GameUpdateCount * rotationSpeed;
-
-			for (int i = 0; i < n; i++)
-			{
-				float angle = baseRotation + angleStep * i;
-				rotations[i] = angle;
-
-				// compute the center position for this index
-				Vector2 c = center + new Vector2(radius, 0f).RotatedBy(angle);
-				centers[i] = c;
-
-				// assign to entity if present
-				if (NPCs[i] != null)
-				{
-					// position is top-left, so subtract half-size to place center correctly
-					NPCs[i].position = c - new Vector2(NPCs[i].width / 2f, NPCs[i].height / 2f);
-
-					// choose how to orient the entity:
-					// - radial: rotation == angle (points away from circle center along radial)
-					// - tangent: rotation == angle + 90deg (points along orbit direction)
-					NPCs[i].rotation = alignToTangent ? angle + MathHelper.PiOver2 : angle;
-				}
-			}
-		}
-		
-		public static void SetEquidistantPlayersWithRotation(Player[] players, Vector2 center, float rotationSpeed, float radius, bool alignToTangent, out Vector2[] centers, out float[] rotations)
-		{
-			int n = players.Length;
-			centers = new Vector2[n];
-			rotations = new float[n];
-
-			if (n == 0)
-				return;
-
-			float angleStep = MathHelper.TwoPi / n;
-			float baseRotation = Main.GameUpdateCount * rotationSpeed;
-
-			for (int i = 0; i < n; i++)
-			{
-				float angle = baseRotation + angleStep * i;
-				rotations[i] = angle;
-
-				// compute the center position for this index
-				Vector2 c = center + new Vector2(radius, 0f).RotatedBy(angle);
-				centers[i] = c;
-
-				// assign to entity if present
-				if (players[i] != null)
-				{
-					// position is top-left, so subtract half-size to place center correctly
-					players[i].position = c - new Vector2(players[i].width / 2f, players[i].height / 2f);
-
-					// choose how to orient the entity:
-					// - radial: rotation == angle (points away from circle center along radial)
-					// - tangent: rotation == angle + 90deg (points along orbit direction)
-					players[i].bodyRotation = alignToTangent ? angle + MathHelper.PiOver2 : angle;
-				}
-			}
 		}
 
 		public static Asset<Texture2D> PointGlow = ModContent.Request<Texture2D>("OpusLib/Assets/Textures/PointGlow");
