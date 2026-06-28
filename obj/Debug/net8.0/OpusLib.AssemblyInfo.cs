@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OpusLib")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebe1c3afd6627ec3c646ee54121707ff16a67f9a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e3c7d276258e6427922966ef2d7c51746ae4776")]
 [assembly: System.Reflection.AssemblyProductAttribute("OpusLib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OpusLib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

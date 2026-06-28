@@ -1,4 +1,5 @@
 using BreadLibrary.Core.Graphics.Pixelation;
+using BreadLibrary.Core.Utilities;
 using InnoVault.PRT;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -323,7 +324,7 @@ namespace OpusLib
 		{
 			Projectile[] result = new Projectile[amount];
 
-			var data = RingRadialVector(amount, center, radius, speed);
+			var data = RingRadialVector(amount, center, radius, speed, offset);
 
 			for (int i = 0; i < amount; i++)
 			{
@@ -402,7 +403,7 @@ namespace OpusLib
 		{
             Dust[] outputDust = new Dust[Amount];
 
-            var Data = RingRadialVector(Amount, Center, Radius, Speed);
+            var Data = RingRadialVector(Amount, Center, Radius, Speed, offset);
 
             for (int i = 0; i < Amount; i++)
             {
@@ -618,7 +619,7 @@ namespace OpusLib
         public static void StartSpriteBatchWithBlending(SpriteBatch spriteBatch, BlendState blendState, SpriteSortMode ssm)
         {
             spriteBatch.End();
-            spriteBatch.Begin(ssm, blendState, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(ssm, blendState, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
 		public static void StartSpriteBatchForTrails(SpriteBatch spriteBatch, BlendState blendState, SpriteSortMode ssm)
@@ -630,13 +631,18 @@ namespace OpusLib
         public static void StartSpriteBatchPixelated(SpriteBatch spriteBatch, BlendState blendState, SpriteSortMode ssm)
         {
             spriteBatch.End();
+            spriteBatch.Begin(ssm, blendState, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, PixelationSystem.PixelationMatrix);
+        }
+
+        public static void StartSpriteBatchForTrailsPixelated(SpriteBatch spriteBatch, BlendState blendState, SpriteSortMode ssm)
+        {
+            spriteBatch.End();
             spriteBatch.Begin(ssm, blendState, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, null, PixelationSystem.PixelationMatrix);
         }
 
         public static void ReturnToDefaultDrawing(SpriteBatch spriteBatch)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.ResetToDefault();
         }
 
 		public static int GetCrateByChestID(ChestID chest, bool Hard)
